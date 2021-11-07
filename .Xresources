@@ -1,0 +1,21 @@
+#include "/home/lucas/.src/Xresources-themes-master/light/PaperColor.Xresources"
+
+*.font: monospace:size=12
+*.alpha: 0.95
+
+XTerm.termName: xterm-256color
+
+xterm*faceName: Ubuntu Mono
+xterm*faceSize: 13
+xterm*renderFont: true
+
+XTerm.vt100.locale: false
+XTerm.vt100.utf8: true
+XTerm.vt100.saveLines: 4096
+
+xterm*VT100.Translations: #override \
+                 Ctrl Shift <Key>V:    insert-selection(CLIPBOARD) \n\
+                 Ctrl Shift <Key>C:    copy-selection(CLIPBOARD)
+
+
+
