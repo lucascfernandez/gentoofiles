@@ -1,11 +1,9 @@
 #!/bin/bash
 
-xrdb .Xresources
 redshift -l -30:-70 -t 6500:2500 &
 xset r rate 300 50 &
 setxkbmap -layout us -variant intl &
 unclutter &
 slstatus &
-xwallpaper --zoom /media/img/nd.png &
-
-
+emacs --daemon &
+xwallpaper --zoom /home/lucas/gentoofiles/cpu.jpg &
