@@ -6,8 +6,8 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Iosevka Nerd Font:size=10:antialias=true:autohint=true",
-					"JoyPixels:size=11:antialias=true:autohint=true"};
-static const char dmenufont[]       = "Iosevka Term:size=11";
+					"JoyPixels:size=10:antialias=true:autohint=true"};
+static const char dmenufont[]       = "Iosevka Term:size=10";
 static const char col_gray1[]       = "#d79921";
 static const char col_gray2[]       = "#928374";
 static const char col_gray3[]       = "#282828";
@@ -75,6 +75,8 @@ static Key keys[] = {
 	{ MODKEY,			XK_z,		spawn,		SHCMD("alacritty -e pulsemixer") },
 	{ MODKEY,			XK_minus,	spawn,		SHCMD("amixer -q sset Master 3%-") },
 	{ MODKEY,			XK_equal,	spawn,		SHCMD("amixer -q sset Master 3%+") },
+	{ MODKEY,			XK_o,	spawn,		SHCMD("ord.sh") },
+	{ 0,			XK_Print,	spawn,		SHCMD("shot.sh") },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
