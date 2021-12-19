@@ -74,7 +74,7 @@ static Key keys[] = {
 	{ MODKEY,			XK_e,		spawn,		SHCMD("emacsclient -c") },
 	{ MODKEY,			XK_r,		spawn,		SHCMD("alacritty -e lf") },
 	{ MODKEY|ShiftMask,		XK_r,		spawn,		SHCMD("alacritty -e htop") },
-	{ MODKEY,			XK_n,		spawn,		SHCMD("alacritty -e nvim -c VimwikiIndex") },
+	{ MODKEY|ShiftMask,		XK_a,		spawn,		SHCMD("launch.sh") },
 	{ MODKEY,			XK_y,		spawn,		SHCMD("yt.sh") },
 	{ MODKEY,			XK_z,		spawn,		SHCMD("alacritty -e pulsemixer") },
 	{ MODKEY,			XK_minus,	spawn,		SHCMD("amixer -q sset Master 3%-") },
