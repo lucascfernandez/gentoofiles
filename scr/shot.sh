@@ -1,12 +1,25 @@
 #!/usr/bin/env bash
+#
+#
+# Lucianus Fanzec
+#
+# Menu para sacar screenshots
 
 out=/home/lucas/Desktop/img/screen/$(date +%s).png
 
-dmenu=$(echo -e "  copiar\n  seleccionar\n pantallazo" | dmenu -i -p " Captura de Pantalla: ")
+menu=$(echo -e "  copiar\n copia + img" | dmenu -i -p " Captura de Pantalla: ")
 
-case "$dmenu" in
-    "  copiar") maim -su | xclip -selection clipboard -t image/png ;;
+case "$menu" in
+    "  copiar") copia=$(echo -e "  seleccionar\n pantallazo" | dmenu -i -p " Qué quieres copiar? ") ;;
+    " copia + img") copiaimg=$(echo -e "  seleccionar\n pantallazo" | dmenu -i -p " Copia + Imagen: ") ;;
+esac
+
+case "$copia" in
+    "  seleccionar") maim -su | xclip -selection clipboard -t image/png ;;
+    " pantallazo") maim | xclip -selection clipboard -t image/png ;;
+esac
+
+case "$copiaimg" in
     "  seleccionar") maim -su | tee $out | xclip -selection clipboard -t image/png ;;
-    " pantallazo") maim $out ;;
-
+    " pantallazo") maim | tee $out | xclip -selection clipboard -t image/png ;;
 esac
