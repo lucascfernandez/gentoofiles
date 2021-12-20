@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #
 #
-# Lucianus Fanzec
+# Lucas Fernandez
 #
-# Menu para sacar screenshots
+# Menu para sacar screenshots.
 
 out=/home/lucas/Desktop/img/screen/$(date +%s).png
 
