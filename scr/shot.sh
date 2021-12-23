@@ -5,7 +5,7 @@
 #
 # Menu para sacar screenshots.
 
-out=/home/lucas/Desktop/img/screen/$(date +%s).png
+out=/home/lucas/Dropbox/img/screen/$(date +%s).png
 
 menu=$(echo -e "  copiar\n copia + img" | dmenu -i -p " Captura de Pantalla: ")
 

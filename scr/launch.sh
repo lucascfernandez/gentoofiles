@@ -4,6 +4,6 @@ menu=$(echo -e " Practica\n Capturas\n Media" | dmenu -i -p "異 Lanzad
 
 case "$menu" in
     " Practica") alacritty -e lf /home/lucas/Dropbox/practica/ ;;
-    " Capturas") alacritty -e lf /home/lucas/Desktop/img/screen/ ;;
+    " Capturas") alacritty -e lf /home/lucas/Dropbox/img/screen/ ;;
     " Media") alacritty -e lf /mnt/ ;;
 esac
