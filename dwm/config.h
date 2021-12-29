@@ -71,7 +71,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,			XK_w,		spawn,		SHCMD("firefox") },
-	{ MODKEY,			XK_e,		spawn,		SHCMD("emacsclient -c") },
+	{ MODKEY,			XK_e,		spawn,		SHCMD("emacsclient-emacs-27 -c") },
 	{ MODKEY,			XK_r,		spawn,		SHCMD("alacritty -e lf") },
 	{ MODKEY|ShiftMask,		XK_r,		spawn,		SHCMD("alacritty -e htop") },
 	{ MODKEY|ShiftMask,		XK_a,		spawn,		SHCMD("launch.sh") },
