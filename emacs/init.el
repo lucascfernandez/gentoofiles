@@ -8,7 +8,7 @@
 
 ;; Set up the visible bell
 (setq visible-bell t)
-(set-face-attribute 'default nil :font "Iosevka" :height 125)
+(set-face-attribute 'default nil :font "Iosevka" :height 130)
 
 ;;; PACKAGE LIST
 (setq package-archives 
@@ -23,105 +23,14 @@
   (package-install 'use-package))
 (eval-when-compile (require 'use-package))
 
-;;; UNDO
-;; Vim style undo not needed for emacs 28
-(use-package undo-fu)
+(use-package nano-modeline
+  :init (nano-modeline-mode))
 
-;;; Vim Bindings
-(use-package evil
-  :demand t
-  :bind (("<escape>" . keyboard-escape-quit))
-  :init
-  ;; allows for using cgn
-  ;; (setq evil-search-module 'evil-search)
-  (setq evil-want-keybinding nil)
-  ;; no vim insert bindings
-  (setq evil-undo-system 'undo-fu)
-  :config
-  (evil-mode 1))
-
-;;; Vim Bindings Everywhere else
-(use-package evil-collection
-  :after evil
-  :config
-  (setq evil-want-integration t)
-  (evil-collection-init))
-
-(use-package general
-  :config
-  (general-evil-setup t)
-
-  (general-create-definer rune/leader-keys
-    :keymaps '(normal insert visual emacs)
-    :prefix "SPC"
-    :global-prefix "C-SPC"))
-
-(rune/leader-keys
-  "t"  '(:ignore t :which-key "toggles")
-  "tt" '(counsel-load-theme :which-key "choose theme"))
-
-(use-package vertico
-  :config
-  (vertico-mode))
-
-(use-package ivy
-  :diminish
-  :bind (("C-s" . swiper)
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-alt-done)	
-         ("C-l" . ivy-alt-done)
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-k" . ivy-previous-line)
-         ("C-l" . ivy-done)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill))
-  :config
-  (ivy-mode 1))
-
-;; Some configurations extrac from Doom-Emacs
-(use-package doom-modeline
-  :ensure t
-  :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 15)))
-
-(use-package doom-themes
-  :init (load-theme 'doom-gruvbox-light t))
+(use-package nano-theme
+  :init (load-theme 'nano-light t))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
-
-;; Pop-up information
-(use-package which-key
-  :defer 0
-  :diminish which-key-mode
-  :config
-  (which-key-mode)
-  (setq which-key-idle-delay 0.4))
-
-(use-package ivy-rich
-  :init
-  (ivy-rich-mode 1))
-
-(use-package counsel
-  :bind (("M-x" . counsel-M-x)
-	 ("C-x b" . counsel-ibuffer)
-	 ("C-x C-f" . counsel-find-file)
-	 :map minibuffer-local-map
-	 ("C-r" . counsel-minibuffer-history)))
- 
-(use-package helpful
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable)
-  :bind
-  ([remap describe-function] . counsel-describe-function)
-  ([remap describe-command] . helpful-command)
-  ([remap describe-variable] . counsel-describe-variable)
-  ([remap describe-key] . helpful-key))
 
 ;; Org-Mode configuration
 (defun efs/org-mode-setup ()
@@ -136,6 +45,8 @@
         org-hide-emphasis-markers t))
 
 (setq org-startup-with-inline-images t)
+
+(setq org-image-actual-width nil)
 
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode)
@@ -166,7 +77,6 @@
                 (org-level-8 . 1.1)))
         (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
 
-
 ;; Ensure that anything that should be fixed-pitch in Org files appears that way
 (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
 (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
@@ -184,9 +94,8 @@
 (use-package visual-fill-column
   :hook (org-mode . efs/org-mode-visual-fill))
 
-(use-package org-tree-slide
-  :custom
-  (org-image-actual-width nil))
+(require 'org)
+(setq org-clock-sound "~/Dropbox/bell.wav")
 
 (use-package org-roam
   :ensure t
@@ -197,9 +106,16 @@
 	 ("C-c n f" . org-roam-node-find)
 	 ("C-c n i" . org-roam-node-insert)
 	 :map org-mode-map
-	 ("C-M-i" . completion-at-point))
+	 ("C-M-i" . completion-at-point)
+         :map org-roam-dailies-map
+	 ("Y" . org-roam-dailies-capture-yesterday)
+         ("T" . org-roam-dailies-capture-tomorrow))
+  :bind-keymap
+  ("C-c n d" . org-roam-dailies-map)
   :config
-  (org-roam-setup))
+  (org-roam-setup)
+  (require 'org-roam-dailies) ;; Ensure the keymap is available
+  (org-roam-db-autosync-mode))
 	 
 (setq org-agenda-files
       '("~/Dropbox/agenda.org"))
@@ -208,40 +124,26 @@
 (setq org-log-done 'time)
 (setq org-log-into-drawer t)
 
-;; Dired Configuration
-(use-package all-the-icons-dired
-  :hook (dired-mode . all-the-icons-dired-mode))
-
 (use-package dired-open
   :config
   (setq dired-open-extensions '(("png" . "sxiv")
+				("svg" . "sxiv")
                                 ("mkv" . "mpv"))))
 (use-package dired-hide-dotfiles
-  :hook (dired-mode . dired-hide-dotfiles-mode)
-  :config
-  (evil-collection-define-key 'normal 'dired-mode-map
-    "H" 'dired-hide-dotfiles-mode))
+  :hook (dired-mode . dired-hide-dotfiles-mode))
 
-;; Startup Emacs
-(defun efs/display-startup-time ()
-  (message "Emacs loaded in %s with %d garbage collections."
-           (format "%.2f seconds"
-                   (float-time
-                   (time-subtract after-init-time before-init-time)))
-           gcs-done))
-
-(add-hook 'emacs-startup-hook #'efs/display-startup-time)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("aca70b555c57572be1b4e4cec57bc0445dcb24920b12fb1fea5f6baa7f2cad02" "1ca05bdae217adeb636e9bc5e84c8f1d045be2c8004fafd5337d141d9b67a96f" default))
  '(package-selected-packages
-   '(general ox-pandoc hide-mode-line org-tree-slide which-key visual-fill-column vertico use-package undo-fu rainbow-delimiters org-roam org-bullets ivy-rich helpful evil-collection doom-themes doom-modeline dired-open dired-hide-dotfiles counsel all-the-icons-dired)))
+   '(visual-fill-column use-package rainbow-delimiters ox-pandoc org-roam org-bullets nano-theme nano-modeline dired-open dired-hide-dotfiles)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
