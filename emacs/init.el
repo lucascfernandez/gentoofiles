@@ -14,6 +14,7 @@
 ;; No Ugly button for checkboxes
 (setq widget-image-enable nil)
 
+
 (set-face-attribute 'default nil :font "Iosevka" :height 130)
 
 ;;; PACKAGE LIST
@@ -28,14 +29,6 @@
   (package-refresh-contents)
   (package-install 'use-package))
 (eval-when-compile (require 'use-package))
-
-(use-package nano-modeline
-  :init (nano-modeline-mode)
-  :custom-face
-  (mode-line ((t (:height 0.1)))))
-	    
-(use-package nano-theme
-  :init (load-theme 'nano-light t))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -156,18 +149,3 @@
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("aca70b555c57572be1b4e4cec57bc0445dcb24920b12fb1fea5f6baa7f2cad02" "1ca05bdae217adeb636e9bc5e84c8f1d045be2c8004fafd5337d141d9b67a96f" default))
- '(package-selected-packages
-   '(visual-fill-column use-package rainbow-delimiters ox-pandoc org-roam org-bullets nano-theme nano-modeline dired-open dired-hide-dotfiles)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
