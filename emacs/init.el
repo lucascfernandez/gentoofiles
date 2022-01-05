@@ -1,5 +1,6 @@
 ;; Startup UI
 (setq inhibit-startup-message t)
+(setq  frame-resize-pixelwise t)
 (scroll-bar-mode -1)        ; Disable visible scrollbar
 (tool-bar-mode -1)          ; Disable the toolbar
 (tooltip-mode -1)           ; Disable tooltips
@@ -8,6 +9,11 @@
 
 ;; Set up the visible bell
 (setq visible-bell t)
+(setq ring-bell-function 'ignore)
+
+;; No Ugly button for checkboxes
+(setq widget-image-enable nil)
+
 (set-face-attribute 'default nil :font "Iosevka" :height 130)
 
 ;;; PACKAGE LIST
@@ -24,8 +30,10 @@
 (eval-when-compile (require 'use-package))
 
 (use-package nano-modeline
-  :init (nano-modeline-mode))
-
+  :init (nano-modeline-mode)
+  :custom-face
+  (mode-line ((t (:height 0.1)))))
+	    
 (use-package nano-theme
   :init (load-theme 'nano-light t))
 
@@ -131,6 +139,22 @@
                                 ("mkv" . "mpv"))))
 (use-package dired-hide-dotfiles
   :hook (dired-mode . dired-hide-dotfiles-mode))
+
+
+;; Latex Config
+(with-eval-after-load 'ox-latex
+(add-to-list 'org-latex-classes
+             '("org-plain-latex"
+               "\\documentclass{article}
+           [NO-DEFAULT-PACKAGES]
+           [PACKAGES]
+           [EXTRA]"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
