@@ -14,7 +14,6 @@
 ;; No Ugly button for checkboxes
 (setq widget-image-enable nil)
 
-
 (set-face-attribute 'default nil :font "Iosevka" :height 130)
 
 ;;; PACKAGE LIST
@@ -32,6 +31,22 @@
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
+
+;; theme scheme
+(use-package modus-themes
+  :ensure
+  :init
+  ;; Add all your customizations prior to loading the themes
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs nil
+        modus-themes-region '(bg-only no-extend))
+
+  ;; Load the theme files before enabling a theme
+  (modus-themes-load-themes)
+  :config
+  ;; Load the theme of your choice:
+  (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
+  :bind ("<f5>" . modus-themes-toggle))
 
 ;; Org-Mode configuration
 (defun efs/org-mode-setup ()
@@ -119,7 +134,8 @@
   (org-roam-db-autosync-mode))
 	 
 (setq org-agenda-files
-      '("~/Dropbox/agenda.org"))
+      '("~/Dropbox/roamnotes/20211226213230-tareas.org"))
+
 
 (setq org-agenda-start-with-log-mode t)
 (setq org-log-done 'time)
@@ -130,6 +146,7 @@
   (setq dired-open-extensions '(("png" . "sxiv")
 				("svg" . "sxiv")
                                 ("mkv" . "mpv"))))
+
 (use-package dired-hide-dotfiles
   :hook (dired-mode . dired-hide-dotfiles-mode))
 
@@ -148,4 +165,21 @@
                ("\\paragraph{%s}" . "\\paragraph*{%s}")
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
+(use-package ox-reveal)
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("7397cc72938446348521d8061d3f2e288165f65a2dbb6366bb666224de2629bb" "a44bca3ed952cb0fd2d73ff3684bda48304565d3eb9e8b789c6cca5c1d9254d1" default))
+ '(hl-sexp-background-color "#efebe9")
+ '(package-selected-packages
+   '(rainbow-mode modus-themes leuven-theme ox-reveal visual-fill-column use-package shrink-path rainbow-delimiters ox-pandoc org-roam org-bullets goto-chg elisp-refs dired-open dired-hide-dotfiles annalist)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
