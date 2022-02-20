@@ -28,7 +28,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating CenterThisWindow?  monitor */
 	{ "Firefox",  NULL,       NULL,       1 << 8,       0,         1  -1 },
-	{ "Alacritty",  NULL,       NULL,       0,       1,         1  -1 },
+	{ "st",  NULL,       NULL,       0,       1,         1  -1 },
 	{ "mpv",  NULL,       NULL,       0,       1,         1  -1 },
 	{ "Zathura",  NULL,       NULL,       0,       1,         1  -1 },
 	{ "Sxiv",  NULL,       NULL,       0,       1,         1  -1 },
@@ -61,7 +61,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "alacritty", NULL };
+static const char *termcmd[]  = { "st", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -69,11 +69,11 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,			XK_w,   	spawn,		SHCMD("firefox") },
 	{ MODKEY,			XK_e,		spawn,		SHCMD("emacsclient-emacs-27 -c") },
-	{ MODKEY,			XK_r,		spawn,		SHCMD("alacritty -e lf") },
-	{ MODKEY|ShiftMask,		XK_r,		spawn,		SHCMD("alacritty -e htop") },
+	{ MODKEY,			XK_r,		spawn,		SHCMD("st -e lf") },
+	{ MODKEY|ShiftMask,		XK_r,		spawn,		SHCMD("st -e htop") },
 	{ MODKEY|ShiftMask,		XK_a,		spawn,		SHCMD("launch.sh") },
 	{ MODKEY,			XK_y,		spawn,		SHCMD("yt.sh") },
-	{ MODKEY,			XK_z,   	spawn,		SHCMD("alacritty -e pulsemixer") },
+	{ MODKEY,			XK_z,   	spawn,		SHCMD("st -e pulsemixer") },
 	{ MODKEY,			XK_minus,	spawn,		SHCMD("amixer -q sset Master 3%-") },
 	{ MODKEY,			XK_equal,	spawn,		SHCMD("amixer -q sset Master 3%+") },
 	{ MODKEY,			XK_o,    	spawn,		SHCMD("ord.sh") },
