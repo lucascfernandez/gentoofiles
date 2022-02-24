@@ -1,0 +1,94 @@
+:PROPERTIES:
+:ID:       67e994f0-76c8-49f9-a524-d8dd43b56b27
+:END:
+#+title: cronograma
+
+* Práctica Profesional Defensoría Penal Pública:
+
+** Hábitos Diarios [40%]
+
+--> *Primeras Gestiones*
+
+- [X] Revisar Estado Diario
+  - [X] Informar Marce las reservadas de DPP con resolución
+  - [X] Separar y Revisar las Nulidades DPP
+
+- [ ] Revisar e Informar Particulares día siguiente
+
+  
+--> *LC* 
+
+- [X] Informar Libertades Condicionales
+
+  
+--> *Informe Diario*
+
+- [-] Confeccionar Informe Diario
+  - [ ] Revisar y Cotejar Novedades DPP
+  
+  - [X] Registrar Ingresos
+    - [X] Revisar Ingreso Claudio (Inadmisibilidad nulidad querellante falta de legitimidad activa) imp.: Mario Bravo Soto / culposo lesiones graves.=> falta informar al defensor.
+  - [ ] Revisar Ingresos si son muchos (principal preocupación: causas que sea parte DPP)
+  - [ ] Informar Ingresos a Defensores
+  - [ ] Atención con la Queja DPP 5846-2022   => Confeccionar escrito con Isi
+
+    
+--> *Dejar Listo*
+
+- [ ] Preparar para día siguiente Libertades Condicionales para informar
+
+
+ * * *
+  
+** Hábitos Semanales [66%]
+
+- [X] Actualizar Seguimiento de Minutas
+- [X] Revisar Informe Reforma Procesal
+- [ ] Tener Presente la 96223-21 en Tabla Ord. Martes. (Profesor) / *57°*
+
+ * * *
+
+** Minutas  [7/11]  [63%]
+
+- [ ] [[file:~/Dropbox/practica/minutas/75548/m75748-21.org][75548]]-21 Puesto: *13°* Día: *Miércoles*
+- [ ] 56148-21 Puesto: *17°* Día: *Martes*
+- [ ] 66259-21 Puesto: *25°* Día: *Martes*
+- [ ] 75545-21 Puesto: *35°* Día: *Martes*
+- [X] [[file:~/Dropbox/practica/minutas/42718/min42718.org][42718]]-21 Puesto: *9°* Día: *Martes* 
+- [X] [[file:~/Dropbox/practica/minutas/56150/min56150.org][56150]]-21 Puesto: *9°* Día: *Viernes*
+- [X] 41757-21
+- [X] 57974-21
+- [X] 58127-21
+- [X] 58240-21
+- [X] 39854-21
+
+  * * *
+
+** Gestiones
+- Introducción Flujo de Trabajo Equipo Tramitación: [[id:1990d36e-6a23-4a63-afd7-55e38c8550d5][Pauta de Reunión]]
+  
+* Personal:
+** Rutinas Diarias [0%]
+
+- [ ] Trotar 1 hora al menos
+  
+** Emacs:
+
+*** Notifications Emacs Org-Agenda
+*** Crear Templates para Informes  y /etc/.
+Esto por el momento se está haciendo a través de copiar y pegar la última presentada.
+*** Instalar YaSnipets
+Esto va de la mano con el tema de las templates.
+*** Mejorar gestión Org-Agenda
+
+- [ ] ¿Org-roam eliminar y usar solamente org?
+- [ ] Configurar org-agenta Protesilaos
+- [-] Focus editor, Protesilaos tips
+  - [ ] hide modeline in docview minor mode
+  - [X] Olivetti package setup
+    Sin embargo respecto a este último, hay que configurarlo para que proceda de forma automática para determinados Mayor Modes.
+
+** GNU/Linux - Gentoo:
+*** Modus Operandi DWM?
+- Lo otro sería indagar como establecer la barra superior oculta por default
+*** Compatibilizar DWM con comandos de Emacs with Super Key, fallow instructions of Protesilaos (BSPWM)

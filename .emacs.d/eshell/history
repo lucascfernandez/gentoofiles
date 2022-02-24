@@ -1,0 +1,116 @@
+l
+ll
+ls
+mkdir Cantarell
+ks
+ls
+unzip -x Cantarell.zip 
+mv *.ttf Cantarell/
+ls
+mv OFL.txt Cantarell/
+ls
+rm Cantarell.zip
+ls
+exit
+doas make install
+doas shutdown -h now
+chmod +x .config/git-prompt.sh
+chmod +x .config/git-completion.bash
+l
+man ytfzzf
+man ytfzf
+ytfzf -h
+ytfzf -stH
+ls
+wget https://raw.githubusercontent.com/rlister/org-present/master/org-present.el
+ls
+exit
+npm install webtorrent
+cd ../gentoofiles/dwm
+doas make install
+emerge -aqv emacs
+doas emerge -aqv emacs
+l
+ls
+ls -al
+ls -a 
+ls -a .emacs.d/
+cp .emacs.d/init.el gentoofiles/emacs/init.el 
+cd 
+cd gentoofiles/
+ls
+neof
+git add -A
+git commit -m "actualiza"
+git push
+git push
+exit
+doas make install
+cd gentoofiles/dwm/
+doas make install
+l
+ls
+chmod +x dic.sh 
+ls
+cd
+ln -s /home/lucas/gentoofiles/scr/dic.sh /home/lucas/.local/bin/ 
+l .local/bin
+ls -bax .local/bin
+ls -baxc .local/bin
+ls -baX .local/bin
+ls
+cd gentoofiles/dwm/
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+cd ../dmenu/
+doas make install
+doas make install
+cd ../dwm
+doas make install
+cd 
+cd gentoofiles/
+cd dwm
+wget https://dwm.suckless.org/patches/scheme_switch/dwm-scheme_switch-20170804-ceac8c9.diff
+ls
+doas make install
+doas make install
+doas make install
+cd ../dmenu/
+doas make install
+cd ../gentoofiles/
+l
+ls
+git add -A
+git commit -m "actualiza"
+git push
+git push
+git push
+clean
+clear
+doas shutdown -h now
+doas emerge -aqv emacs
+clear
+chmod +x record.sh 
+./record.sh prueba
+./record.sh prueba
+mkdir FiraCode
+l
+ls
+mv Fira_Code_v6.2.zip FiraCode/
+cd FiraCode/
+ls
+unzip -x Fira_Code_v6.2.zip 
+clear
+fc-cache
+fc-list
+doas make install

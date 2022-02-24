@@ -1,0 +1,20 @@
+:PROPERTIES:
+:ID:       a096e9bb-6539-4c19-89f8-6f93db83f67e
+:END:
+#+title: tareas
+
+* Presentación:
+Aquí se ingresarán las tareas que se necesiten cumplir.
+Recuerde visualizar de forma dinámica estas tareas a través de /org-agenda/.
+
+"/Algún día la disciplina le vencerá al talento"/
+
+* Revisar [[id:67e994f0-76c8-49f9-a524-d8dd43b56b27][cronograma]]
+
+
+** TODO Confeccionar TP en 6050-2022
+DEADLINE: <2022-02-21 lun 14:00>
+
+** TODO Lectura 28917-21 Ley Emilia
+SCHEDULED: <2022-02-22 mar 10:00>
+

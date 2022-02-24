@@ -1,0 +1,94 @@
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+cd ../dmenu/
+doas make install
+doas make install
+cd ../dwm/
+doas make install
+doas make install
+chmod 644 /usr/local/share/man/man1/dwm.1
+doas make install
+doas make install
+cd ../dmenu/
+doas make install
+xwallpaper --zoom Desktop/cas.jpg 
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+cd ../dmenu/
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+doas make install
+cd ../dmenu/
+doas make install
+doas make install
+doas make install
+mv config.h .
+doas make clean install
+l
+ls
+mv config.h /home/lucas/
+l
+ls
+doas make clean install
+doas make install
+doas make install
+doas make install
+doas make install
+cd ../dmenu/
+l
+ls
+doas make install
+doas make clean install
+doas make install
+cd
+cd /home/lucas/.src/
+doas make install
+cd slstatus/
+doas make install
+doas make install
+doas make install
+ls
+Eshell does not support input redirection
+doas make install 
+doas make install
+cd ../dmenu/
+doas make install
+doas make install
+doas make install
+cd ../../.src/st/
+l
+la
+ls
+doas make install
+cd
+ls
+cd gentoofiles/
+git add .
+git commit -m "simplifica"
+git push
+doas make install
+cd
+cd gentoofiles/
+git add .
+git commit -m "webcam al f11"
+git push
+fc-cache
+doas make install
+doas make install
