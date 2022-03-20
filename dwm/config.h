@@ -2,16 +2,20 @@
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int gappx     = 20;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 0;        /* 0 means bottom bar */
+static const int topbar             = 1;        /* 0 means bottom bar */
+static const int vertpad            = 10;       /* vertical padding of bar */
+static const int sidepad            = 10;       /* horizontal padding of bar */
+static const int focusonwheel       = 0;
 static const char *fonts[]          = { "monospace:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
-static const char col_gray1[]       = "#222222";
+static const char col_gray1[]       = "#ffffff";
 static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
+static const char col_gray3[]       = "#282828";
+static const char col_gray4[]       = "#000000";
+static const char col_cyan[]        = "#FFA500";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
@@ -26,12 +30,9 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating CenterThisWindow?  monitor */
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,         1  -1 },
-	{ "st",  NULL,       NULL,       0,       1,         1  -1 },
-	{ "mpv",  NULL,       NULL,       0,       1,         1  -1 },
-	{ "Zathura",  NULL,       NULL,       0,       1,         1  -1 },
-	{ "Sxiv",  NULL,       NULL,       0,       1,         1  -1 },
+	/* class      instance    title       tags mask     isfloating   monitor */
+	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
+	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 };
 
 /* layout(s) */
@@ -67,18 +68,18 @@ static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,			XK_w,   	spawn,		SHCMD("firefox") },
-	{ MODKEY,			XK_e,		spawn,		SHCMD("emacsclient-emacs-27 -c") },
-	{ MODKEY,			XK_r,		spawn,		SHCMD("st -e lf") },
-	{ MODKEY|ShiftMask,		XK_r,		spawn,		SHCMD("st -e htop") },
-	{ MODKEY|ShiftMask,		XK_a,		spawn,		SHCMD("launch.sh") },
-	{ MODKEY,			XK_y,		spawn,		SHCMD("yt.sh") },
-	{ MODKEY,			XK_z,   	spawn,		SHCMD("st -e pulsemixer") },
-	{ MODKEY,			XK_minus,	spawn,		SHCMD("amixer -q sset Master 3%-") },
-	{ MODKEY,			XK_equal,	spawn,		SHCMD("amixer -q sset Master 3%+") },
-	{ MODKEY,			XK_o,    	spawn,		SHCMD("ord.sh") },
-	{ MODKEY|ShiftMask,		XK_o,	        spawn,		SHCMD("dic.sh") },
-	{ 0,			        XK_Print,	spawn,		SHCMD("shot.sh") },
+	{ MODKEY,			XK_w,      spawn,	   SHCMD("firefox") },
+	{ MODKEY,			XK_e,	   spawn,		SHCMD("emacsclient-emacs-27 -c") },
+	{ MODKEY,			XK_r,	   spawn,		SHCMD("st -e lf") },
+	{ MODKEY|ShiftMask,		XK_r,	   spawn,		SHCMD("st -e htop") },
+	{ MODKEY|ShiftMask,		XK_a,	   spawn,		SHCMD("launch.sh") },
+	{ MODKEY,			XK_y,	   spawn,		SHCMD("yt.sh") },
+	{ MODKEY,			XK_a,      spawn,		SHCMD("st -e pulsemixer") },
+	{ MODKEY,			XK_minus,  spawn,		SHCMD("amixer -q sset Master 3%-") },
+	{ MODKEY,			XK_equal,  spawn,		SHCMD("amixer -q sset Master 3%+") },
+	{ MODKEY,			XK_o,      spawn,		SHCMD("ord.sh") },
+	{ MODKEY|ShiftMask,		XK_o,	   spawn,		SHCMD("dic.sh") },
+	{ 0,			        XK_Print,  spawn,		SHCMD("shot.sh") },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -100,7 +101,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-        { MODKEY,			XK_F11,	   spawn,	   SHCMD("mpv --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(ls /dev/video[0,2,4,6,8] | tail -n 1)") },
+	{ MODKEY,                       XK_x,  setgaps,        {.i = -1 } },
+	{ MODKEY,                       XK_z,  setgaps,        {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_z,  setgaps,        {.i = 0  } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)

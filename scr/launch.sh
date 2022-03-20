@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-menu=$(echo -e "Practica\nCapturas\nMedia\nlluvia\nSetkeyboard\nHexcolor\nParlantes on\nParlantes off" | dmenu -i -p "Lanzador: ")
+menu=$(echo -e "Practica\nCapturas\nMedia\nlluvia\nSetkeyboard\nHexcolor\nParlantes on\nParlantes off" | dmenu -l 10 -i -p "Lanzador: ")
 
 case "$menu" in
     "Practica") st -e lf /home/lucas/Dropbox/practica/ ;;

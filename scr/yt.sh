@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dmenu=$(echo -e "canales\nvideo\nmusica\nanime" | dmenu -i -p "Stream:")
+dmenu=$(echo -e "canales\nvideo\nmusica\nanime" | dmenu -l 4 -i -p "Stream:")
 
 
 case "$dmenu" in

@@ -1,34 +1,27 @@
 --- dwm.c
 +++ dwm.c
-@@ -58,7 +58,7 @@
- 
- /* enums */
- enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
--enum { SchemeNorm, SchemeSel, SchemeLast }; /* color schemes */
-+enum { SchemeNorm, SchemeSel, SchemeUrg, SchemeLast }; /* color schemes */
- enum { NetSupported, NetWMName, NetWMState,
-        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
-        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
-@@ -1537,6 +1537,9 @@ setup(void) {
- 	scheme[SchemeSel].border = drw_clr_create(drw, selbordercolor);
- 	scheme[SchemeSel].bg = drw_clr_create(drw, selbgcolor);
- 	scheme[SchemeSel].fg = drw_clr_create(drw, selfgcolor);
-+	scheme[SchemeUrg].border = drw_clr_create(drw, urgbordercolor);
-+	scheme[SchemeUrg].bg = drw_clr_create(drw, selbgcolor);
-+	scheme[SchemeUrg].fg = drw_clr_create(drw, selfgcolor);
- 	/* init bars */
- 	updatebars();
- 	updatestatus();
-@@ -1982,8 +1985,11 @@ updatewmhints(Client *c) {
- 			wmh->flags &= ~XUrgencyHint;
- 			XSetWMHints(dpy, c->win, wmh);
+@@ -1696,16 +1709,16 @@ tile(Monitor *m)
+ 	if (n > m->nmaster)
+ 		mw = m->nmaster ? m->ww * m->mfact : 0;
+ 	else
+-		mw = m->ww;
+-	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
++		mw = m->ww - m->gappx;
++	for (i = 0, my = ty = m->gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+ 		if (i < m->nmaster) {
+-			h = (m->wh - my) / (MIN(n, m->nmaster) - i);
+-			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
+-			my += HEIGHT(c);
++			h = (m->wh - my) / (MIN(n, m->nmaster) - i) - m->gappx;
++			resize(c, m->wx + m->gappx, m->wy + my, mw - (2*c->bw) - m->gappx, h - (2*c->bw), 0);
++			my += HEIGHT(c) + m->gappx;
+ 		} else {
+-			h = (m->wh - ty) / (n - i);
+-			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), 0);
+-			ty += HEIGHT(c);
++			h = (m->wh - ty) / (n - i) - m->gappx;
++			resize(c, m->wx + mw + m->gappx, m->wy + ty, m->ww - mw - (2*c->bw) - 2*m->gappx, h - (2*c->bw), 0);
++			ty += HEIGHT(c) + m->gappx;
  		}
--		else
-+		else {
- 			c->isurgent = (wmh->flags & XUrgencyHint) ? True : False;
-+			if (c->isurgent)
-+				XSetWindowBorder(dpy, c->win, scheme[SchemeUrg].border->pix);
-+		}
- 		if(wmh->flags & InputHint)
- 			c->neverfocus = !wmh->input;
- 		else
+ }
+ 
