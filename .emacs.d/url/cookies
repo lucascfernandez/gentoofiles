@@ -3,26 +3,11 @@
 
 (setq url-cookie-storage
  '((".google.com"
-  [url-cookie "NID" "511=ZgwcWHMYLWyTrhUbrzgDsSB0L8dr7a5YHLjyaQUtX7PSWv57-t3fGzKLe9jE1m-kFOKnJFswdODxvRDCbM_zdbqJz9TQ0_EL0uZe_yEx4x9xWg2lX7zOZuda5sya9M6Mv7wzIN93oJ6MOyAzmT30BasTtJcGhHnUuMyjuwJtij4" "Mon, 11-Jul-2022 23:03:02 GMT" "/" ".google.com" nil])
- (".google.cl"
-  [url-cookie "NID" "511=neGNz-95GUOP3x5NWME9q6ytDh0ZuC0prNRiF_Xb4jqTu-_4ntHhPeu0iJiwudzfOnCRVhdJQFSisZZ21zKpDj620qgYhyOXdP7Ps3vsbPgQy016dty2DB5cEwR1JcsDYNvope-H3JHjYHzK53h_g0PTW0jS_Xa4omkbXJvJ47U" "Mon, 04-Jul-2022 14:59:12 GMT" "/" ".google.cl" nil]))
+  [url-cookie "NID" "511=Ge_P3L6t5X5-sgRo-0nwO1A6-EGfgPlPcleJBUzOe19W_FUOhzqpfQsXMcBJ0Ct9R6ZQKRnMn9P_rPnbQ_dny7u73KoiySRHpkCWYEe1Sp6WzjvyL5a0HF_wgIymb-T23XRNx_6bnnQFjGd7cOYFfnlMeuI22MzZYQqPJPJc2y0" "Mon, 25-Jul-2022 02:08:49 GMT" "/" ".google.com" nil]))
 )
 (setq url-cookie-secure-storage
- '((".google.cl"
-  [url-cookie "1P_JAR" "2022-01-22-14" "Mon, 21-Feb-2022 14:01:28 GMT" "/" ".google.cl" t])
- ("github.com"
-  [url-cookie "logged_in" "no" "Sun, 22 Jan 2023 12:23:18 GMT" "/" "github.com" t]
-  [url-cookie "_octo" "GH1.1.760144947.1642854198" "Sun, 22 Jan 2023 12:23:18 GMT" "/" "github.com" t])
- ("reddit.com"
-  [url-cookie "edgebucket" "JOCLznsmMuD8t2f2U4" "mar ene 02 15:00:02 2024 GMT" "/" "reddit.com" t]
-  [url-cookie "token_v2" "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDExMzkxMTAsInN1YiI6Ii0xMDBfTXhqY0JuaUp3SnJROVBueXJITWpHUXAxYlEiLCJsb2dnZWRJbiI6ZmFsc2UsInNjb3BlcyI6WyIqIiwiZW1haWwiLCJwaWkiXX0.xl481Cs5T_0B037GekfebSYfkn_AiCwjsFfhUNbgM1E" "Tue, 02 Jan 2024 15:00:30 GMT" "/" "reddit.com" t])
- (".youtube.com"
-  [url-cookie "VISITOR_INFO1_LIVE" "nBZwCynRi_A" "Sun, 03-Jul-2022 21:12:42 GMT" "/" ".youtube.com" t])
- (".google.com"
-  [url-cookie "1P_JAR" "2022-01-09-23" "Tue, 08-Feb-2022 23:04:02 GMT" "/" ".google.com" t])
- (".reddit.com"
-  [url-cookie "csv" "2" "mar ene 02 15:00:03 2024 GMT" "/" ".reddit.com" t]
-  [url-cookie "loid" "0000000000i67uqa5x.2.1641135630790.Z0FBQUFBQmgwYjRPQVFxQlhXOVZyYlpSUDVyUV9jQWhIVm1Ta3RFSGh4b1pNaXRIRno5NDk4WGtIZXBDMzI3YktnX19DVjFBSDVBd1RwQXVIMW1HRE1SWUtNOE9oRWFsVTI1aVF3bHRfMjhzeERxalZnVDdRZTRXZTQ5T2Nsam45d3h4TXVHYTNrWFg" "Tue, 02 Jan 2024 15:00:30 GMT" "/" ".reddit.com" t]))
+ '((".google.com"
+  [url-cookie "1P_JAR" "2022-01-23-02" "Tue, 22-Feb-2022 02:08:49 GMT" "/" ".google.com" t]))
 )
 
 ;; Local Variables:

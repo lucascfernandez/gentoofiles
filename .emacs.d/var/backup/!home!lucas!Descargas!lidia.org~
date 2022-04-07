@@ -1,0 +1,131 @@
+:PROPERTIES:
+:ID:       67e994f0-76c8-49f9-a524-d8dd43b56b27
+:END:
+#+title: cronograma
+
+* Práctica Profesional Defensoría Penal Pública:
+
+** Hábitos Diarios [100%]
+
+*** Primeras Gestiones
+
+- [X] Revisar Estado Diario
+  - [X] Informar Marce las reservadas de DPP con resolución
+  - [X] Separar y Revisar las Nulidades DPP
+
+
+_____
+
+*** LC 
+
+- [X] Informar Libertades Condicionales
+
+
+_____
+
+*** Informe Diario
+
+- [X] Confeccionar Informe Diario
+  - [X] Revisar y Cotejar Novedades DPP
+  - [X] Registrar Ingresos
+  - [X] Revisar Ingresos si son muchos (principal preocupación: causas que sea parte DPP)
+  - [X] Informar Ingresos a Defensores
+  
+
+
+_Observaciones_:
+
+=> *Causas Reservadas*:
+
++ Deben ser informadas para que se solicite el RUC o captura de primera hoja del recurso;
++ Al conseguirse dichos datos se deben revisar (Sigdp) si la causa es DPP o no;
++ Si es DPP debe informarse a Marcela para que este se haga parte en la causa (con la finalidad de poder hacer seguimiento a la tramitación de la causa en ECS);
++ Al hacerse parte y durante la primera semana que haya ingresado dicho recurso reservado, consultar los días *miercoles* o *viernes* si MP se ha hecho parte (y revisar si ha solicitado remisión o inadmisibilidad). 
+
+
+=> *Admisibilidad*
+
++ MP se hace parte y solicita remisión/inadmisibilidad:
+  - Informar a Marcela
+  - Asignar confección TP
+  - Ingresar a base de admisibilidad
+  - Hacer seguimiento y completar ingreso respecto a su admisibilidad
+
++ Queja de querellante, interviene DPP:
+  - Informar Marcela
+  - Asignar confección de escrito de inadmisibilidad
+  - Ingresar a base de admisibilidad
+  - Hacer seguimiento y completar ingreso respecto a su admisibilidad
+
+=> *Correos a Defensores*:
+
++ Cuando los Defensores envíen los antecedentes solicitados, se debe _remitir dichos antecedentes al correo de gmail institucional_.
+
+_____
+
+*** Dejar Listo
+
+- [X] Confirmar Informar Particulares día siguiente
+- [X] Preparar para día siguiente Libertades Condicionales para informar
+
+
+ * * *
+  
+** Hábitos Semanales [100%]
+
+- [X] Actualizar Seguimiento de Minutas
+- [X] Revisar Informe Reforma Procesal
+- [X] Tener Presente la 96223-21 en Tabla Ord. Martes. (Profesor) / *56°*
+
+  * * *
+
+** Minutas  [10/16]  [62%]
+
+- [ ] 49323-21 Puesto: *8°*  Día: *Viernes*
+- [ ] [[file:~/Dropbox/practica/minutas/56148/m56148.org][56148]]-21 Puesto: *10°* Día: *Martes*
+- [ ] 78953-21 Puesto: *13°* Día: *Miercoles*
+- [ ] 60655-21 Puesto: *14°* Día: *Viernes* 
+- [ ] 66259-21 Puesto: *18°* Día: *Martes*
+- [ ] 69685-21 Puesto: *20°* Día: *Martes* 
+- [X] [[file:~/Dropbox/practica/minutas/84407/m84407-21.org][84407]]-21 
+- [X] 75545-21 
+- [X] [[file:~/Dropbox/practica/minutas/75548/m75748-21.org][75548]]-21
+- [X] [[file:~/Dropbox/practica/minutas/42718/min42718.org][42718]]-21 
+- [X] [[file:~/Dropbox/practica/minutas/56150/min56150.org][56150]]-21 
+- [X] 41757-21
+- [X] 57974-21
+- [X] 58127-21
+- [X] 58240-21
+- [X] 39854-21
+
+  * * *
+
+** Gestiones
+- Introducción Flujo de Trabajo Equipo Tramitación: [[id:1990d36e-6a23-4a63-afd7-55e38c8550d5][Pauta de Reunión]]
+  
+* Personal:
+
+** Rutinas Diarias [0%]
+
+- [ ] Desarrollar alguna actividad física al aire libre al menos por 1 hora
+  
+** Emacs:
+
+*** Notifications Emacs Org-Agenda
+*** Crear Templates para Informes  y /etc/.
+Esto por el momento se está haciendo a través de copiar y pegar la última presentada.
+*** Instalar YaSnipets
+Esto va de la mano con el tema de las templates.
+*** Mejorar gestión Org-Agenda
+
+- [ ] ¿Org-roam eliminar y usar solamente org?
+- [ ] Configurar org-agenta Protesilaos
+- [-] Focus editor, Protesilaos tips
+  - [ ] hide modeline in docview minor mode
+  - [X] Olivetti package setup
+    Sin embargo respecto a este último, hay que configurarlo para que proceda de forma automática para determinados Mayor Modes.
+
+** GNU/Linux - Gentoo:
+*** Modus Operandi DWM?
+- Lo otro sería indagar como establecer la barra superior oculta por default
+*** Compatibilizar DWM con comandos de Emacs with Super Key, fallow instructions of Protesilaos (BSPWM)

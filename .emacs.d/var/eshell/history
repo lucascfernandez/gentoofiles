@@ -1,94 +1,34 @@
 doas make install
 doas make install
+killall slstatus
+slstatus &
+killall slstatus
 doas make install
 doas make install
 doas make install
 doas make install
+cd gentoofiles/dmenu/
 doas make install
-doas make install
-cd ../dmenu/
-doas make install
-doas make install
-cd ../dwm/
-doas make install
-doas make install
-chmod 644 /usr/local/share/man/man1/dwm.1
-doas make install
-doas make install
-cd ../dmenu/
-doas make install
-xwallpaper --zoom Desktop/cas.jpg 
-doas make install
-doas make install
-doas make install
-doas make install
-doas make install
-doas make install
-doas make install
-doas make install
-doas make install
-cd ../dmenu/
-doas make install
-doas make install
-doas make install
-doas make install
-doas make install
-doas make install
-doas make install
-cd ../dmenu/
-doas make install
-doas make install
-doas make install
-mv config.h .
-doas make clean install
+doas rm -r gentoofiles/dwm/
+doas rm -r gentoofiles/dwm/
+doas cp -r dwm/ gentoofiles/
+doas cp -r dwm/ gentoofiles/
+wget https://dwm.suckless.org/patches/focusonclick/dwm-focusonclick-20200110-61bb8b2.diff
 l
-ls
-mv config.h /home/lucas/
 l
+sls
 ls
-doas make clean install
-doas make install
-doas make install
-doas make install
-doas make install
-cd ../dmenu/
-l
+doas rm -r gentoofiles/dwm/
+doas rm -r gentoofiles/dwm/
+doas cp -r dwm/ gentoofiles/
+doas cp -r dwm/ gentoofiles/
+doas cp -r dwm/ gentoofiles/
 ls
-doas make install
-doas make clean install
-doas make install
-cd
-cd /home/lucas/.src/
-doas make install
-cd slstatus/
+clear
 doas make install
 doas make install
-doas make install
-ls
-Eshell does not support input redirection
-doas make install 
-doas make install
-cd ../dmenu/
+cd /home/lucas/.src/st/
+make install
 doas make install
 doas make install
-doas make install
-cd ../../.src/st/
-l
-la
-ls
-doas make install
-cd
-ls
-cd gentoofiles/
-git add .
-git commit -m "simplifica"
-git push
-doas make install
-cd
-cd gentoofiles/
-git add .
-git commit -m "webcam al f11"
-git push
-fc-cache
-doas make install
-doas make install
+make install

@@ -13,28 +13,19 @@ if [[ $- != *i* ]] ; then
 	# Shell is non-interactive.  Be done now!
 	return
 fi
+
+
 # Put your fun stuff here.
-
-# Emacs Mode
-set -o emacs
-
-# Bash Prompt Customization
-PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
-
-# Fuzzy Finder integration
 source /usr/share/fzf/key-bindings.bash
-
-# Git Completion integration
-source ~/.config/git-completion.bash
-source ~/.config/git-prompt.sh
 
 # Local pip to PATH 
 export PATH="${PATH}:${HOME}/.local/bin/"
-export EDITOR="nvim"
-export TERM="alacritty"
-export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI mode
+export EDITOR="vim"
+export TERM="st"
 
 # Alias
 alias l="ls -bapX"
 alias ll="ls -lapX"
-alias ka="killall"
+
+# Alacritty problem
+export LIBGL_ALWAYS_SOFTWARE=1 alacritty

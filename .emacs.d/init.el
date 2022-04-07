@@ -8,10 +8,6 @@
 (menu-bar-mode -1)            ; Disable the menu bar
 
 
-(use-package fira-code-mode
-  :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
-  :hook prog-mode)                                                             ;; Enables fira-code-mode automatically for programming major modes
-
 (save-place-mode 1)
 
 (use-package no-littering)
@@ -25,7 +21,7 @@
 
 ;;Set Default Font
 (add-to-list 'default-frame-alist
-                       '(font . "Fira Code-11"))
+                       '(font . "Ubuntu Mono-12"))
 
 ;;; PACKAGE LIST
 (setq package-archives 
@@ -61,67 +57,6 @@
   (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
   :bind ("<f5>" . modus-themes-toggle))
 
-;; Org-Mode configuration
-(defun efs/org-mode-setup ()
-  (org-indent-mode)
-  (variable-pitch-mode 1)
-  (visual-line-mode 1))
-
-(use-package org
-  :hook (org-mode . efs/org-mode-setup)
-  :config
-  (setq org-ellipsis " ▾"
-        org-hide-emphasis-markers t))
-
-(setq org-startup-with-inline-images t)
-
-(setq org-image-actual-width nil)
-
-(use-package org-bullets
-  :hook (org-mode . org-bullets-mode)
-  :custom
-  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
-
-(use-package org-bullets
-  :after org
-  :hook (org-mode . org-bullets-mode)
-  :custom
-  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
-
-;; Replace list hyphen with dot
-(font-lock-add-keywords 'org-mode
-                        '(("^ *\\([-]\\) "
-                          (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-
-;; Make sure org-indent face is available
-(require 'org-indent)
-
-(dolist (face '((org-level-1 . 1.2)
-                (org-level-2 . 1.1)
-                (org-level-3 . 1.05)
-                (org-level-4 . 1.0)
-                (org-level-5 . 1.1)
-                (org-level-6 . 1.1)
-                (org-level-7 . 1.1)
-                (org-level-8 . 1.1)))
-        (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
-
-;; Ensure that anything that should be fixed-pitch in Org files appears that way
-(set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
-(set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
-(set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
-(set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
-(set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-(set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-(set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
-
-(defun efs/org-mode-visual-fill ()
-  (setq visual-fill-column-width 100
-	visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
-
-(use-package visual-fill-column
-  :hook (org-mode . efs/org-mode-visual-fill))
 
 (require 'org)
 (setq org-clock-sound "~/Dropbox/bell.wav")
@@ -179,7 +114,6 @@
                ("\\paragraph{%s}" . "\\paragraph*{%s}")
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
-(use-package ox-reveal)
 
 ;; Elfeed config
 (setq elfeed-feeds
@@ -197,7 +131,7 @@
    '("7397cc72938446348521d8061d3f2e288165f65a2dbb6366bb666224de2629bb" "a44bca3ed952cb0fd2d73ff3684bda48304565d3eb9e8b789c6cca5c1d9254d1" default))
  '(hl-sexp-background-color "#efebe9")
  '(package-selected-packages
-   '(fira-code-mode no-littering vertico elfeed pdf-tools olivetti rainbow-mode modus-themes ox-reveal visual-fill-column use-package shrink-path rainbow-delimiters ox-pandoc org-roam org-bullets goto-chg elisp-refs dired-open dired-hide-dotfiles annalist)))
+   '(logos fira-code-mode no-littering vertico elfeed pdf-tools olivetti rainbow-mode modus-themes ox-reveal visual-fill-column use-package shrink-path rainbow-delimiters ox-pandoc org-roam org-bullets goto-chg elisp-refs dired-open dired-hide-dotfiles annalist)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
