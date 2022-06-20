@@ -7,10 +7,7 @@
 (set-fringe-mode 10)        ; Give some breathing room
 (menu-bar-mode -1)            ; Disable the menu bar
 
-
 (save-place-mode 1)
-
-(use-package no-littering)
 
 ;; Set up the visible bell
 (setq visible-bell t)
@@ -39,6 +36,12 @@
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
+(use-package no-littering)
+
+(use-package olivetti)
+
+(use-package vertico)
+
 (vertico-mode 1)
 
 ;; theme scheme
@@ -61,30 +64,6 @@
 (require 'org)
 (setq org-clock-sound "~/Dropbox/bell.wav")
 
-(use-package org-roam
-  :ensure t
-  :custom
-  (org-roam-directory "~/Dropbox/roamnotes/")
-  (org-roam-completion-everywhere t)
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-	 ("C-c n f" . org-roam-node-find)
-	 ("C-c n i" . org-roam-node-insert)
-	 :map org-mode-map
-	 ("C-M-i" . completion-at-point)
-         :map org-roam-dailies-map
-	 ("Y" . org-roam-dailies-capture-yesterday)
-         ("T" . org-roam-dailies-capture-tomorrow))
-  :bind-keymap
-  ("C-c n d" . org-roam-dailies-map)
-  :config
-  (org-roam-setup)
-  (require 'org-roam-dailies) ;; Ensure the keymap is available
-  (org-roam-db-autosync-mode))
-	 
-(setq org-agenda-files
-      '("~/Dropbox/roamnotes/20211226213230-tareas.org"))
-
-
 (setq org-agenda-start-with-log-mode t)
 (setq org-log-done 'time)
 (setq org-log-into-drawer t)
@@ -97,6 +76,8 @@
 
 (use-package dired-hide-dotfiles
   :hook (dired-mode . dired-hide-dotfiles-mode))
+
+(use-package pdf-tools)
 
 (pdf-tools-install)
 
@@ -115,12 +96,40 @@
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
 
-;; Elfeed config
-(setq elfeed-feeds
-      '("https://protesilaos.com/master.xml"
-	"https://decisia.lexum.com/dppc/cm/es/rss.do"
-	"https://decisia.lexum.com/dppc/cs/es/rss.do"
-        "https://lukesmith.xyz/rss.xml"))
+(require 'logos)
+
+;; If you want to use outlines instead of page breaks (the ^L)
+(setq logos-outlines-are-pages t)
+(setq logos-outline-regexp-alist
+      `((emacs-lisp-mode . "^;;;+ ")
+        (org-mode . "^\\*+ +")
+        (markdown-mode . "^\\#+ +")
+        (t . ,(or outline-regexp logos--page-delimiter))))
+
+;; These apply when `logos-focus-mode' is enabled.  Their value is
+;; buffer-local.
+(setq-default logos-hide-mode-line t
+              logos-hide-buffer-boundaries t
+              logos-hide-fringe t
+              logos-variable-pitch t
+              logos-buffer-read-only nil
+              logos-scroll-lock t
+              logos-olivetti t)
+
+;; Also check this manual for `logos-focus-mode-extra-functions'.  It is
+;; a hook that lets you extend `logos-focus-mode'.
+
+(let ((map global-map))
+  (define-key map [remap narrow-to-region] #'logos-narrow-dwim)
+  (define-key map [remap forward-page] #'logos-forward-page-dwim)
+  (define-key map [remap backward-page] #'logos-backward-page-dwim)
+  (define-key map (kbd "<f9>") #'logos-focus-mode))
+
+(setq olivetti-body-width 0.7
+      olivetti-minimum-body-width 80
+      olivetti-recall-visual-line-mode-entry-state t)
+
+(global-hl-line-mode 1)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -131,7 +140,7 @@
    '("7397cc72938446348521d8061d3f2e288165f65a2dbb6366bb666224de2629bb" "a44bca3ed952cb0fd2d73ff3684bda48304565d3eb9e8b789c6cca5c1d9254d1" default))
  '(hl-sexp-background-color "#efebe9")
  '(package-selected-packages
-   '(logos fira-code-mode no-littering vertico elfeed pdf-tools olivetti rainbow-mode modus-themes ox-reveal visual-fill-column use-package shrink-path rainbow-delimiters ox-pandoc org-roam org-bullets goto-chg elisp-refs dired-open dired-hide-dotfiles annalist)))
+   '(logos denote fira-code-mode no-littering vertico elfeed pdf-tools olivetti rainbow-mode modus-themes ox-reveal visual-fill-column use-package shrink-path rainbow-delimiters ox-pandoc org-bullets goto-chg elisp-refs dired-open dired-hide-dotfiles annalist)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
