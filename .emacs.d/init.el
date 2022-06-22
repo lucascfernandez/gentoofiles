@@ -62,7 +62,6 @@
 
 
 (require 'org)
-(setq org-clock-sound "~/Dropbox/bell.wav")
 
 (setq org-agenda-start-with-log-mode t)
 (setq org-log-done 'time)
@@ -113,7 +112,7 @@
               logos-hide-fringe t
               logos-variable-pitch t
               logos-buffer-read-only nil
-              logos-scroll-lock t
+              logos-scroll-lock nil
               logos-olivetti t)
 
 ;; Also check this manual for `logos-focus-mode-extra-functions'.  It is
@@ -129,7 +128,50 @@
       olivetti-minimum-body-width 80
       olivetti-recall-visual-line-mode-entry-state t)
 
-(global-hl-line-mode 1)
+(require 'lin)
+
+(setq lin-face 'lin-red)
+   
+(setq lin-mode-hooks
+           '(bongo-mode-hook
+             dired-mode-hook
+             elfeed-search-mode-hook
+             git-rebase-mode-hook
+             grep-mode-hook
+             ibuffer-mode-hook
+             ilist-mode-hook
+             ledger-report-mode-hook
+             log-view-mode-hook
+             magit-log-mode-hook
+             mu4e-headers-mode
+             notmuch-search-mode-hook
+             notmuch-tree-mode-hook
+             occur-mode-hook
+	     org-mode-hook
+             org-agenda-mode-hook
+             proced-mode-hook
+             tabulated-list-mode-hook))
+
+(lin-global-mode 1)   
+
+;; Load the `tmr' library
+(require 'tmr)
+
+;; set to nil to disable the sound
+(setq tmr-sound-file
+      "~/Dropbox/bell.wav")
+
+(setq tmr-notification-urgency 'normal)
+(setq tmr-descriptions-list (list "Boil water" "Prepare tea" "Bake bread"))
+
+;; OPTIONALLY set global key bindings:
+(let ((map global-map))
+  (define-key map (kbd "C-c t t") #'tmr)
+  (define-key map (kbd "C-c t T") #'tmr-with-description)
+  (define-key map (kbd "C-c t l") #'tmr-tabulated-view) ; "list timers" 
+  (define-key map (kbd "C-c t c") #'tmr-clone)
+  (define-key map (kbd "C-c t k") #'tmr-cancel)
+  (define-key map (kbd "C-c t K") #'tmr-remove-finished))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -140,7 +182,7 @@
    '("7397cc72938446348521d8061d3f2e288165f65a2dbb6366bb666224de2629bb" "a44bca3ed952cb0fd2d73ff3684bda48304565d3eb9e8b789c6cca5c1d9254d1" default))
  '(hl-sexp-background-color "#efebe9")
  '(package-selected-packages
-   '(logos denote fira-code-mode no-littering vertico elfeed pdf-tools olivetti rainbow-mode modus-themes ox-reveal visual-fill-column use-package shrink-path rainbow-delimiters ox-pandoc org-bullets goto-chg elisp-refs dired-open dired-hide-dotfiles annalist)))
+   '(tmr lin logos denote fira-code-mode no-littering vertico elfeed pdf-tools olivetti rainbow-mode modus-themes ox-reveal visual-fill-column use-package shrink-path rainbow-delimiters ox-pandoc org-bullets goto-chg elisp-refs dired-open dired-hide-dotfiles annalist)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
