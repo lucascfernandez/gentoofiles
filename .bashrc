@@ -20,9 +20,14 @@ source /usr/share/fzf/key-bindings.bash
 
 # Local pip to PATH 
 export PATH="${PATH}:${HOME}/.local/bin/"
-export EDITOR="vim"
+export EDITOR="emacsclient-emacs-28 -c"
 export TERM="st"
 
 # Alias
 alias l="ls -bapX"
 alias ll="ls -lapX"
+alias kdenlive="flatpak run org.kde.kdenlive"
+alias onlyoffice="flatpak run org.onlyoffice.desktopeditors"
+alias xmind="flatpak run net.xmind.XMind8"
+alias reboot="doas reboot"
+alias shutdown="doas shutdown -h now"

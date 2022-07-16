@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int gappx     = 20;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
@@ -68,7 +68,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,			XK_w,      spawn,	   SHCMD("firefox") },
-	{ MODKEY,			XK_e,	   spawn,		SHCMD("emacsclient-emacs-27 -c") },
+	{ MODKEY,			XK_e,	   spawn,		SHCMD("emacsclient-emacs-28 -c") },
 	{ MODKEY,			XK_r,	   spawn,		SHCMD("st -e lf") },
 	{ MODKEY|ShiftMask,		XK_r,	   spawn,		SHCMD("st -e htop") },
 	{ MODKEY|ShiftMask,		XK_a,	   spawn,		SHCMD("launch.sh") },
