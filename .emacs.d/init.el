@@ -179,7 +179,7 @@
  ;; Remember to check the doc strings of those variables.
  (setq denote-directory (expand-file-name "~/Dropbox/notes/"))
  (setq denote-known-keywords
-       '("computador" "filosofia" "politica" "derecho"))
+       '("computador" "filosofia" "politica" "derecho" "habito"))
  (setq denote-infer-keywords t)
  (setq denote-sort-keywords t)
  (setq denote-file-type nil) ; Org is the default, set others here
@@ -227,8 +227,10 @@
    "Create an entry tagged 'journal', while prompting for a title."
    (interactive)
    (denote
-    (denote--title-prompt)
-    "journal"))
+    (format-time-string "%A %e %B %Y")
+    '("journal")
+    nil
+    "~/Dropbox/notes/journal"))
  
  ;; Denote does not define any key bindings.  This is for the user to
  ;; decide.  For example:
@@ -261,7 +263,25 @@
  		 :no-save t
  		 :immediate-finish nil
  		 :kill-buffer t
- 		 :jump-to-captured t)))
+   		 :jump-to-captured t)))
+
+(global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "<f8>") #'olivetti-mode)
+
+(setq org-agenda-custom-commands
+      '(
+	
+	("n" "Planificación"
+         ((alltodo ""
+		  ((org-agenda-overriding-header "Tareas por Hacer:\n")))
+	  (agenda ""
+		  ((org-agenda-block-separator nil)
+		   (org-agenda-span 1)
+		   (org-agenda-format-date "%A, %e %b %Y")
+		   (org-agenda-overriding-header "\nAgenda Diaria:\n")))))
+          ))
+
+
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -323,9 +343,11 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("7397cc72938446348521d8061d3f2e288165f65a2dbb6366bb666224de2629bb" "a44bca3ed952cb0fd2d73ff3684bda48304565d3eb9e8b789c6cca5c1d9254d1" default))
+ '(diary-file "/home/lucas/.emacs.d/var/diary")
+ '(global-display-line-numbers-mode nil)
  '(hl-sexp-background-color "#efebe9")
  '(olivetti-style 'fancy)
- '(org-agenda-files '("~/Dropbox/notes/20220626T110325--tareas__journal.org"))
+ '(org-agenda-files '("/home/lucas/Dropbox/notes/agenda.org"))
  '(org-num-face nil)
  '(org-startup-indented t)
  '(org-startup-numerated t)
