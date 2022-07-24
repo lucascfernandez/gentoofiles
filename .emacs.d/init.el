@@ -18,7 +18,7 @@
 
 ;;Set Default Font
 (add-to-list 'default-frame-alist
-                       '(font . "Ubuntu Mono-12"))
+                       '(font . "Courier Prime-12"))
 
 ;;; PACKAGE LIST
 (setq package-archives 
@@ -296,10 +296,7 @@
 
 (setq org-hide-emphasis-markers t)
 
-(use-package yasnippet
-  :config
-  (setq yas-snippet-dirs '("~/Dropbox/templates/snippets/"))
-  (yas-global-mode 1))
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
 
 (require 'cursory)
 
@@ -336,6 +333,15 @@
 (define-key global-map (kbd "C-c p") #'cursory-set-preset)
 
 
+(setq elfeed-feeds
+      '("https://www.elmostrador.cl/noticias/pais/feed/"
+	"https://www.elmostrador.cl/opinion/feed/"
+	"https://lukesmith.xyz/index.xml"
+        "https://protesilaos.com/master.xml"))
+
+
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -352,5 +358,5 @@
  '(org-startup-indented t)
  '(org-startup-numerated t)
  '(package-selected-packages
-   '(yasnippet cursory tmr lin logos denote fira-code-mode no-littering vertico elfeed pdf-tools olivetti rainbow-mode modus-themes ox-reveal visual-fill-column use-package shrink-path rainbow-delimiters ox-pandoc org-bullets goto-chg elisp-refs dired-open dired-hide-dotfiles annalist)))
+   '(cursory tmr lin logos denote fira-code-mode no-littering vertico elfeed pdf-tools olivetti rainbow-mode modus-themes ox-reveal visual-fill-column use-package shrink-path rainbow-delimiters org-bullets goto-chg elisp-refs dired-open dired-hide-dotfiles annalist)))
 
