@@ -18,7 +18,7 @@
 
 ;;Set Default Font
 (add-to-list 'default-frame-alist
-                       '(font . "Ubuntu Mono-12"))
+                       '(font . "Courier Prime-12"))
 
 ;;; PACKAGE LIST
 (setq package-archives 
@@ -135,7 +135,6 @@
 (setq lin-mode-hooks
            '(bongo-mode-hook
              dired-mode-hook
-             elfeed-search-mode-hook
              git-rebase-mode-hook
              grep-mode-hook
              ibuffer-mode-hook
@@ -179,7 +178,7 @@
  ;; Remember to check the doc strings of those variables.
  (setq denote-directory (expand-file-name "~/Dropbox/notes/"))
  (setq denote-known-keywords
-       '("computador" "filosofia" "politica" "derecho"))
+       '("computador" "filosofia" "politica" "derecho" "habito"))
  (setq denote-infer-keywords t)
  (setq denote-sort-keywords t)
  (setq denote-file-type nil) ; Org is the default, set others here
@@ -266,6 +265,7 @@
    		 :jump-to-captured t)))
 
 (global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "<f8>") #'olivetti-mode)
 
 (setq org-agenda-custom-commands
       '(
@@ -280,36 +280,18 @@
 		   (org-agenda-overriding-header "\nAgenda Diaria:\n")))))
           ))
 
-(use-package dashboard
-  :ensure
-  :init
-  (progn
-    (setq dashboard-items '((agenda . 5)
-			    (recents . 5)
-			    (bookmarks . 9)))
-    (setq dashboard-center-content t))
-  :config
-  (dashboard-setup-startup-hook))
 
-(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-level-1 ((t (:inherit outline-1 :height 1.4))))
- '(org-level-2 ((t (:inherit outline-2 :height 1.3))))
- '(org-level-3 ((t (:inherit outline-3 :height 1.2))))
- '(org-level-4 ((t (:inherit outline-4 :height 1.1))))
- '(org-level-5 ((t (:inherit outline-5 :height 1.0)))))
+ )
 
 (setq org-hide-emphasis-markers t)
 
-(use-package yasnippet
-  :config
-  (setq yas-snippet-dirs '("~/Dropbox/templates/snippets/"))
-  (yas-global-mode 1))
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
 
 (require 'cursory)
 
@@ -354,13 +336,28 @@
  '(custom-safe-themes
    '("7397cc72938446348521d8061d3f2e288165f65a2dbb6366bb666224de2629bb" "a44bca3ed952cb0fd2d73ff3684bda48304565d3eb9e8b789c6cca5c1d9254d1" default))
  '(diary-file "/home/lucas/.emacs.d/var/diary")
+ '(global-display-line-numbers-mode nil)
  '(hl-sexp-background-color "#efebe9")
  '(olivetti-style 'fancy)
- '(org-agenda-files
-   '("/home/lucas/Dropbox/notes/20220710T113829--pauta__derecho_journal.org"))
+ '(org-agenda-files '("/home/lucas/Dropbox/notes/agenda.org"))
  '(org-num-face nil)
  '(org-startup-indented t)
  '(org-startup-numerated t)
  '(package-selected-packages
-   '(dashboard yasnippet cursory tmr lin logos denote fira-code-mode no-littering vertico elfeed pdf-tools olivetti rainbow-mode modus-themes ox-reveal visual-fill-column use-package shrink-path rainbow-delimiters ox-pandoc org-bullets goto-chg elisp-refs dired-open dired-hide-dotfiles annalist)))
+   '(cursory tmr lin logos denote fira-code-mode no-littering vertico pdf-tools olivetti rainbow-mode modus-themes ox-reveal visual-fill-column use-package shrink-path rainbow-delimiters org-bullets goto-chg elisp-refs dired-open dired-hide-dotfiles annalist))
+ '(pdf-annot-default-annotation-properties
+   '((t
+      (label . ""))
+     (text
+      (color . "#ff0000")
+      (icon . "Note"))
+     (highlight
+      (color . "green"))
+     (underline
+      (color . "blue"))
+     (squiggly
+      (color . "orange"))
+     (strike-out
+      (color . "red"))))
+ '(semantic-stickyfunc-indent-string ""))
 
