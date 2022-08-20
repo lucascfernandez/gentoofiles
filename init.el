@@ -44,21 +44,57 @@
 
 (vertico-mode 1)
 
-;; theme scheme
-(use-package modus-themes
-  :ensure
-  :init
-  ;; Add all your customizations prior to loading the themes
-  (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs nil
-        modus-themes-region '(bg-only no-extend))
+(require 'ef-themes)
 
-  ;; Load the theme files before enabling a theme
-  (modus-themes-load-themes)
-  :config
-  ;; Load the theme of your choice:
-  (modus-themes-load-operandi) ;; OR (modus-themes-load-vivendi)
-  :bind ("<f5>" . modus-themes-toggle))
+;; If you like two specific themes and want to switch between them, you
+;; can specify them in `ef-themes-to-toggle' and then invoke the command
+;; `ef-themes-toggle'.  All the themes are included in the variable
+;; `ef-themes-collection'.
+(setq ef-themes-to-toggle '(ef-day ef-autumn))
+
+;; Make customisations that affect Emacs faces BEFORE loading a theme
+;; (any change needs a theme re-load to take effect).
+
+(setq ef-themes-headings ; read the manual's entry or the doc string
+      '((0 . (variable-pitch light 1.9))
+        (1 . (variable-pitch light 1.8))
+        (2 . (variable-pitch regular 1.7))
+        (3 . (variable-pitch regular 1.6))
+        (4 . (variable-pitch regular 1.5))
+        (5 . (variable-pitch 1.4)) ; absence of weight means `bold'
+        (6 . (variable-pitch 1.3))
+        (7 . (variable-pitch 1.2))
+        (t . (variable-pitch 1.1))))
+
+;; Disable all other themes to avoid awkward blending:
+(mapc #'disable-theme custom-enabled-themes)
+
+;; Load the theme of choice:
+(load-theme 'ef-day :noconfirm)
+(load-theme 'ef-light t t)
+(load-theme 'ef-spring t t)
+(load-theme 'ef-summer t t)
+(load-theme 'ef-autumn t t)
+(load-theme 'ef-dark t t)
+(load-theme 'ef-night t t)
+(load-theme 'ef-winter t t)
+
+
+;; The themes we provide:
+;;
+;; Light: `ef-day', `ef-light', `ef-spring', `ef-summer'.
+;; Dark:  `ef-autumn', `ef-dark', `ef-night', `ef-winter'.
+;;
+;; Also those which are optimized for deuteranopia (red-green color
+;; deficiency): `ef-deuteranopia-dark', `ef-deuteranopia-light'.
+
+;; We also provide these commands, but do not assign them to any key:
+;;
+;; - `ef-themes-toggle'
+;; - `ef-themes-select'
+;; - `ef-themes-load-random'
+;; - `ef-themes-preview-colors'
+;; - `ef-themes-preview-colors-current'
 
 
 (require 'org)
@@ -172,97 +208,96 @@
   (define-key map (kbd "C-c t k") #'tmr-cancel)
   (define-key map (kbd "C-c t K") #'tmr-remove-finished))
 
- 
- (require 'denote)
- 
- ;; Remember to check the doc strings of those variables.
- (setq denote-directory (expand-file-name "~/Dropbox/notes/"))
- (setq denote-known-keywords
-       '("computador" "filosofia" "politica" "derecho" "habito"))
- (setq denote-infer-keywords t)
- (setq denote-sort-keywords t)
- (setq denote-file-type nil) ; Org is the default, set others here
- 
- ;; We allow multi-word keywords by default.  The author's personal
- ;; preference is for single-word keywords for a more rigid workflow.
- (setq denote-allow-multi-word-keywords t)
- 
- (setq denote-date-format nil) ; read doc string
- 
- ;; You will not need to `require' all those individually once the
- ;; package is available.
- (require 'denote-retrieve)
- (require 'denote-link)
- 
- ;; By default, we fontify backlinks in their bespoke buffer.
- (setq denote-link-fontify-backlinks t)
- 
- ;; Also see `denote-link-backlinks-display-buffer-action' which is a bit
- ;; advanced.
- 
- ;; If you use Markdown or plain text files (Org renders links as buttons
- ;; right away)
- (add-hook 'find-file-hook #'denote-link-buttonize-buffer)
- 
- (require 'denote-dired)
- (setq denote-dired-rename-expert nil)
- 
- ;; We use different ways to specify a path for demo purposes.
- (setq denote-dired-directories
-       (list denote-directory
- 	    (thread-last denote-directory (expand-file-name "attachments"))
- 	    (expand-file-name "~/Dropbox/books")))
- 
- ;; Generic (great if you rename files Denote-style in lots of places):
- ;; (add-hook 'dired-mode-hook #'denote-dired-mode)
- ;;
- ;; OR if only want it in `denote-dired-directories':
- (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
- 
- ;; Here is a custom, user-level command from one of the examples we
- ;; showed in this manual.  We define it here and add it to a key binding
- ;; below.
- (defun my-denote-journal ()
-   "Create an entry tagged 'journal', while prompting for a title."
-   (interactive)
-   (denote
-    (format-time-string "%A %e %B %Y")
-    '("journal")
-    nil
-    "~/Dropbox/notes/journal"))
- 
- ;; Denote does not define any key bindings.  This is for the user to
- ;; decide.  For example:
- (let ((map global-map))
-   (define-key map (kbd "C-c n j") #'my-denote-journal) ; our custom command
-   (define-key map (kbd "C-c n n") #'denote)
-   (define-key map (kbd "C-c n N") #'denote-type)
-   (define-key map (kbd "C-c n d") #'denote-date)
-   (define-key map (kbd "C-c n s") #'denote-subdirectory)
-   ;; If you intend to use Denote with a variety of file types, it is
-   ;; easier to bind the link-related commands to the `global-map', as
-   ;; shown here.  Otherwise follow the same pattern for `org-mode-map',
-   ;; `markdown-mode-map', and/or `text-mode-map'.
-   (define-key map (kbd "C-c n i") #'denote-link) ; "insert" mnemonic
-   (define-key map (kbd "C-c n I") #'denote-link-add-links)
-   (define-key map (kbd "C-c n l") #'denote-link-find-file) ; "list" links
-   (define-key map (kbd "C-c n b") #'denote-link-backlinks)
-   ;; Note that `denote-dired-rename-file' can work from any context, not
-   ;; just Dired bufffers.  That is why we bind it here to the
-   ;; `global-map'.
-   (define-key map (kbd "C-c n r") #'denote-dired-rename-file))
- 
- (with-eval-after-load 'org-capture
-   (require 'denote-org-capture)
-   (setq denote-org-capture-specifiers "%l\n%i\n%?")
-   (add-to-list 'org-capture-templates
- 	       '("n" "New note (with denote.el)" plain
- 		 (file denote-last-path)
- 		 #'denote-org-capture
- 		 :no-save t
- 		 :immediate-finish nil
- 		 :kill-buffer t
-   		 :jump-to-captured t)))
+(require 'denote)
+
+;; Remember to check the doc strings of those variables.
+(setq denote-directory (expand-file-name "~/Dropbox/notes/"))
+(setq denote-known-keywords '("emacs" "filosofia" "politica" "derecho"))
+(setq denote-infer-keywords t)
+(setq denote-sort-keywords t)
+(setq denote-file-type nil) ; Org is the default, set others here
+(setq denote-prompts '(title keywords))
+
+;; Read this manual for how to specify `denote-templates'.  We do not
+;; include an example here to avoid potential confusion.
+
+
+;; We allow multi-word keywords by default.  The author's personal
+;; preference is for single-word keywords for a more rigid workflow.
+(setq denote-allow-multi-word-keywords t)
+
+(setq denote-date-format nil) ; read doc string
+
+;; By default, we fontify backlinks in their bespoke buffer.
+(setq denote-link-fontify-backlinks t)
+
+;; Also see `denote-link-backlinks-display-buffer-action' which is a bit
+;; advanced.
+
+;; If you use Markdown or plain text files (Org renders links as buttons
+;; right away)
+(add-hook 'find-file-hook #'denote-link-buttonize-buffer)
+
+;; We use different ways to specify a path for demo purposes.
+(setq denote-dired-directories
+      (list denote-directory
+	    (thread-last denote-directory (expand-file-name "attachments"))
+	    (expand-file-name "~/Dropbox/libros")))
+
+;; Generic (great if you rename files Denote-style in lots of places):
+;; (add-hook 'dired-mode-hook #'denote-dired-mode)
+;;
+;; OR if only want it in `denote-dired-directories':
+(add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
+
+;; Here is a custom, user-level command from one of the examples we
+;; showed in this manual.  We define it here and add it to a key binding
+;; below.
+(defun my-denote-journal ()
+  "Create an entry tagged 'journal', while prompting for a title."
+  (interactive)
+  (denote
+   (denote--title-prompt)
+   '("journal")))
+
+;; Denote DOES NOT define any key bindings.  This is for the user to
+;; decide.  For example:
+(let ((map global-map))
+  (define-key map (kbd "C-c n j") #'my-denote-journal) ; our custom command
+  (define-key map (kbd "C-c n n") #'denote)
+  (define-key map (kbd "C-c n N") #'denote-type)
+  (define-key map (kbd "C-c n d") #'denote-date)
+  (define-key map (kbd "C-c n s") #'denote-subdirectory)
+  (define-key map (kbd "C-c n t") #'denote-template)
+  ;; If you intend to use Denote with a variety of file types, it is
+  ;; easier to bind the link-related commands to the `global-map', as
+  ;; shown here.  Otherwise follow the same pattern for `org-mode-map',
+  ;; `markdown-mode-map', and/or `text-mode-map'.
+  (define-key map (kbd "C-c n i") #'denote-link) ; "insert" mnemonic
+  (define-key map (kbd "C-c n I") #'denote-link-add-links)
+  (define-key map (kbd "C-c n l") #'denote-link-find-file) ; "list" links
+  (define-key map (kbd "C-c n b") #'denote-link-backlinks)
+  ;; Note that `denote-rename-file' can work from any context, not just
+  ;; Dired bufffers.  That is why we bind it here to the `global-map'.
+  (define-key map (kbd "C-c n r") #'denote-rename-file)
+  (define-key map (kbd "C-c n R") #'denote-rename-file-using-front-matter))
+
+;; Key bindings specifically for Dired.
+(let ((map dired-mode-map))
+  (define-key map (kbd "C-c C-d C-i") #'denote-link-dired-marked-notes)
+  (define-key map (kbd "C-c C-d C-r") #'denote-dired-rename-marked-files)
+  (define-key map (kbd "C-c C-d C-R") #'denote-dired-rename-marked-files-using-front-matter))
+
+(with-eval-after-load 'org-capture
+  (setq denote-org-capture-specifiers "%l\n%i\n%?")
+  (add-to-list 'org-capture-templates
+	       '("n" "New note (with denote.el)" plain
+		 (file denote-last-path)
+		 #'denote-org-capture
+		 :no-save t
+		 :immediate-finish nil
+		 :kill-buffer t
+		 :jump-to-captured t)))
 
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "<f8>") #'olivetti-mode)
@@ -279,15 +314,6 @@
 		   (org-agenda-format-date "%A, %e %b %Y")
 		   (org-agenda-overriding-header "\nAgenda Diaria:\n")))))
           ))
-
-
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 
 (setq org-hide-emphasis-markers t)
 
@@ -344,7 +370,7 @@
  '(org-startup-indented t)
  '(org-startup-numerated t)
  '(package-selected-packages
-   '(cursory tmr lin logos denote fira-code-mode no-littering vertico pdf-tools olivetti rainbow-mode modus-themes ox-reveal visual-fill-column use-package shrink-path rainbow-delimiters org-bullets goto-chg elisp-refs dired-open dired-hide-dotfiles annalist))
+   '(ef-themes org-preview-html cursory tmr lin logos denote fira-code-mode no-littering vertico pdf-tools olivetti rainbow-mode modus-themes ox-reveal visual-fill-column use-package shrink-path rainbow-delimiters org-bullets goto-chg elisp-refs dired-open dired-hide-dotfiles annalist))
  '(pdf-annot-default-annotation-properties
    '((t
       (label . ""))
@@ -359,5 +385,12 @@
       (color . "orange"))
      (strike-out
       (color . "red"))))
+ '(pdf-view-continuous nil)
  '(semantic-stickyfunc-indent-string ""))
 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
