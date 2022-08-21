@@ -52,6 +52,8 @@
 ;; `ef-themes-collection'.
 (setq ef-themes-to-toggle '(ef-day ef-autumn))
 
+(global-set-key (kbd "<f5>") #'ef-themes-toggle)
+
 ;; Make customisations that affect Emacs faces BEFORE loading a theme
 ;; (any change needs a theme re-load to take effect).
 
