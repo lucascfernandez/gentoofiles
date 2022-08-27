@@ -1,0 +1,9 @@
+media-video/obs-studio ~amd64
+app-misc/anki ~amd64
+app-text/pandoc ~amd64
+dev-haskell/* ~amd64
+>=dev-lang/ghc-8.4.3 ~amd64
+>=app-admin/haskell-updater-1.2 ~amd64
+dev-util/android-sdk-update-manager ~amd64
+media-video/droidcam ~amd64
+media-video/v4l2loopback ~amd64

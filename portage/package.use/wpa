@@ -1,0 +1,54 @@
+net-wireless/wpa_supplicant tkip
+app-editors/emacs alsa cairo gtk gui imagemagick jpeg libxml2 png sound sqlite xft 
+# required by www-client/firefox-91.11.0::gentoo[system-libvpx]
+# required by firefox (argument)
+>=media-libs/libvpx-1.11.0 postproc
+media-libs/libsndfile minimal
+media-video/ffmpeg libv4l lv2 mp3 openal opencl opengl oss pulseaudio v4l x264 x265 xvid
+media-gfx/imagemagick corefonts fpx jpeg opencl webp# required by dev-python/PyQtWebEngine-5.15.5::gentoo
+# required by app-misc/anki-2.1.15-r1::gentoo[python_single_target_python3_10]
+# required by app-misc/anki (argument)
+>=dev-python/PyQt5-5.15.6 webchannel
+# required by dev-python/PyQtWebEngine-5.15.5::gentoo
+# required by app-misc/anki-2.1.15-r1::gentoo[python_single_target_python3_10]
+# required by app-misc/anki (argument)
+>=dev-qt/qtwebengine-5.15.5_p20220618 widgets
+# required by dev-qt/qtwebengine-5.15.5_p20220618::gentoo
+# required by dev-python/PyQtWebEngine-5.15.5::gentoo
+# required by app-misc/anki-2.1.15-r1::gentoo[python_single_target_python3_10]
+# required by app-misc/anki (argument)
+>=dev-qt/qtwebchannel-5.15.5 qml
+# required by dev-qt/qtwebengine-5.15.5_p20220618::gentoo
+# required by dev-python/PyQtWebEngine-5.15.5::gentoo
+# required by app-misc/anki-2.1.15-r1::gentoo[python_single_target_python3_10]
+# required by app-misc/anki (argument)
+>=sys-libs/zlib-1.2.12-r2 minizip
+# required by dev-python/PyQt5-5.15.6::gentoo[multimedia]
+# required by dev-python/PyQtWebEngine-5.15.5::gentoo
+# required by app-misc/anki-2.1.15-r1::gentoo[python_single_target_python3_10]
+# required by app-misc/anki (argument)
+>=dev-qt/qtmultimedia-5.15.5 widgets
+# required by dev-texlive/texlive-xetex-2021-r1::gentoo
+# required by dev-texlive/texlive-formatsextra-2021::gentoo
+# required by app-text/texlive-2021::gentoo[-extra,xml]
+# required by texlive (argument)
+>=app-text/texlive-core-2021-r1 xetex
+# required by dev-util/android-sdk-update-manager-24.4.1-r1::gentoo
+# required by dev-util/android-sdk-update-manager (argument)
+>=sys-libs/ncurses-compat-6.2 abi_x86_32
+# required by dev-util/android-sdk-update-manager-24.4.1-r1::gentoo
+# required by dev-util/android-sdk-update-manager (argument)
+>=sys-libs/zlib-1.2.12-r2 abi_x86_32
+# required by sys-libs/ncurses-compat-6.2::gentoo[gpm]
+# required by dev-util/android-sdk-update-manager-24.4.1-r1::gentoo
+# required by dev-util/android-sdk-update-manager (argument)
+>=sys-libs/gpm-1.20.7-r4 abi_x86_32
+# required by sys-libs/gpm-1.20.7-r4::gentoo
+# required by sys-libs/ncurses-compat-6.2::gentoo[gpm]
+# required by dev-util/android-sdk-update-manager-24.4.1-r1::gentoo
+# required by dev-util/android-sdk-update-manager (argument)
+>=sys-libs/ncurses-6.3_p20220423 abi_x86_32
+sys-libs/ncurses -gpm# required by dev-libs/libappindicator-12.10.1_p20200706::gentoo
+# required by media-video/droidcam-1.8.2::gentoo
+# required by media-video/droidcam (argument)
+>=dev-libs/libdbusmenu-16.04.0-r1 gtk3
