@@ -44,15 +44,20 @@
 
 (vertico-mode 1)
 
+;; Completarions in Orderless
+(setq completion-styles '(orderless))
+
 (require 'ef-themes)
 
 ;; If you like two specific themes and want to switch between them, you
 ;; can specify them in `ef-themes-to-toggle' and then invoke the command
 ;; `ef-themes-toggle'.  All the themes are included in the variable
 ;; `ef-themes-collection'.
-(setq ef-themes-to-toggle '(ef-day ef-autumn))
+(setq ef-themes-to-toggle '(ef-deuteranopia-light ef-deuteranopia-dark))
 
 (global-set-key (kbd "<f5>") #'ef-themes-toggle)
+
+
 
 ;; Make customisations that affect Emacs faces BEFORE loading a theme
 ;; (any change needs a theme re-load to take effect).
@@ -72,7 +77,9 @@
 (mapc #'disable-theme custom-enabled-themes)
 
 ;; Load the theme of choice:
-(load-theme 'ef-day :noconfirm)
+(load-theme 'ef-deuteranopia-light :noconfirm)
+(load-theme 'ef-deuteranopia-dark t t)
+(load-theme 'ef-day t t)
 (load-theme 'ef-light t t)
 (load-theme 'ef-spring t t)
 (load-theme 'ef-summer t t)
@@ -132,6 +139,7 @@
                ("\\paragraph{%s}" . "\\paragraph*{%s}")
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
+(setq org-ellipsis "»")
 
 (require 'logos)
 
@@ -304,6 +312,9 @@
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "<f8>") #'olivetti-mode)
 
+;; Comparar documentos antes de guardar
+(global-set-key (kbd "C-x v =") #'diff-buffer-with-file)
+
 (setq org-agenda-custom-commands
       '(
 	
@@ -372,7 +383,7 @@
  '(org-startup-indented t)
  '(org-startup-numerated t)
  '(package-selected-packages
-   '(ef-themes org-preview-html cursory tmr lin logos denote fira-code-mode no-littering vertico pdf-tools olivetti rainbow-mode modus-themes ox-reveal visual-fill-column use-package shrink-path rainbow-delimiters org-bullets goto-chg elisp-refs dired-open dired-hide-dotfiles annalist))
+   '(orderless ef-themes org-preview-html cursory tmr lin logos denote fira-code-mode no-littering vertico pdf-tools olivetti rainbow-mode modus-themes ox-reveal visual-fill-column use-package shrink-path rainbow-delimiters org-bullets goto-chg elisp-refs dired-open dired-hide-dotfiles annalist))
  '(pdf-annot-default-annotation-properties
    '((t
       (label . ""))
