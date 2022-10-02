@@ -1,5 +1,6 @@
 #+title: Emacs Config
 #+author: Lucas Fernandez Cofré
+#+startup: overview
 #
 # Documento expositivo y funcional de la configuración personal
 # actualmente utilizada en el programa Emacs.
@@ -8,8 +9,8 @@
 
 * Inicio
 
-Aqui se encuentran aquellas configuraciones respecto al inicio y
-prncipalmente aquillas que apuntan a la apariencia UI.
+Aquí se encuentran aquellas configuraciones respecto al inicio y
+principalmente aquillas que apuntan a la apariencia UI.
 
 #+begin_src emacs-lisp
 (setq inhibit-startup-message t)
@@ -36,14 +37,6 @@ habíamos dejado.
 (setq ring-bell-function 'ignore)
 #+end_src
 
-Ahora configuraremos la fuente:
-
-#+begin_src emacs-lisp
-;;Set Default Font
-(add-to-list 'default-frame-alist
-                       '(font . "Courier Prime-12"))
-#+end_src                       
-
 * Gestión de Paquetes
 
 Esto es muy importante para facilitar la utilización del programa, al
@@ -69,38 +62,31 @@ Con los repositorios instalados podemos instalar inmediatamente
 aquellos paquetes que estimemos necesarios.
 
 #+begin_src emacs-lisp
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
-(use-package no-littering)
-(use-package olivetti)
-(use-package vertico)
-(vertico-mode 1)
-(use-package orderless)
-(setq completion-styles '(orderless))
-(use-package ef-themes)
-(use-package pdf-tools)
-(pdf-tools-install)
-(use-package logos)
-(use-package lin)
-(use-package tmr)
-(use-package denote)
-(use-package cursory)
+  (use-package vertico)
+  (vertico-mode 1)
+  (use-package orderless)
+  (setq completion-styles '(orderless))
+  (use-package denote)
 #+end_src
+
 * Org
 
 A continuación configuraremos algunas cosas que hasta el momento me
 han funcionado muy bien respecto a org-mode.
 
-
 #+begin_src emacs-lisp
-(require 'org)
-(setq org-agenda-start-with-log-mode t)
-(setq org-log-done 'time)
-(setq org-log-into-drawer t)
-(setq org-ellipsis "»")
-(setq org-hide-emphasis-markers t)
-(add-hook 'org-mode-hook 'turn-on-auto-fill)
-(setq widget-image-enable nil)
+  (require 'org)
+  (setq org-agenda-start-with-log-mode t)
+  (setq org-ellipsis " »")
+  (setq org-hide-emphasis-markers t)
+  (add-hook 'org-mode-hook 'variable-pitch-mode)
+  (add-hook 'org-mode-hook 'visual-line-mode)
+  (add-hook 'org-mode-hook 'flyspell-mode)
+  (setq widget-image-enable nil)
+  (font-lock-add-keywords 'org-mode
+                          '(("^ *\\([-]\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
 #+end_src
 
 ** Org-Agenda
@@ -119,168 +105,140 @@ han funcionado muy bien respecto a org-mode.
           ))
 #+end_src
 
-* Dired
+** Fonts
+
 
 #+begin_src emacs-lisp
-(use-package dired-open
-  :config
-  (setq dired-open-extensions '(("png" . "sxiv")
-				("svg" . "sxiv")
-                                ("mkv" . "mpv"))))
-(use-package dired-hide-dotfiles
-  :hook (dired-mode . dired-hide-dotfiles-mode))
-#+end_src
+  (when window-system
+    (let* ((variable-tuple
+	    (cond ((x-list-fonts "ETBembo")         '(:font "ETBembo"))
+		  ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
+		  ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
+		  ((x-list-fonts "Verdana")         '(:font "Verdana"))
+		  ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
+		  (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
+	   (base-font-color     (face-foreground 'default nil 'default))
+	   (headline           `(:inherit default :weight bold :foreground ,base-font-color)))))
 
-* Cursory
+  (custom-theme-set-faces
+    'user
+    '(variable-pitch ((t (:family "ETBembo" :height 180 :weight thin))))
+    '(fixed-pitch ((t ( :family "Ubuntu Mono" :height 160)))))
 
-Este es un paquete desarrollado por el gran Prot y solamente es una
-reprodución de la configuración por defecto que se recomienda en su
-muy bien logrado manual.
+  (custom-theme-set-faces
+    'user
+    '(org-block ((t (:inherit fixed-pitch))))
+    '(org-code ((t (:inherit (shadow fixed-pitch)))))
+    '(org-document-info ((t (:foreground "dark orange"))))
+    '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+    '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
+    '(org-link ((t (:foreground "royal blue" :underline t))))
+    '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+    '(org-property-value ((t (:inherit fixed-pitch))) t)
+    '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+    '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
+    '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
+    '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
 
-#+begin_src emacs-lisp
-(require 'cursory)
-(setq cursory-presets
-      '((bar
-         :cursor-type (bar . 2)
-         :cursor-in-non-selected-windows hollow
-         :blink-cursor-blinks 10
-         :blink-cursor-interval 0.5
-         :blink-cursor-delay 0.2)
-        (box
-         :cursor-type box
-         :cursor-in-non-selected-windows hollow
-         :blink-cursor-blinks 10
-         :blink-cursor-interval 0.5
-         :blink-cursor-delay 0.2)
-        (underscore
-         :cursor-type (hbar . 3)
-         :cursor-in-non-selected-windows hollow
-         :blink-cursor-blinks 50
-         :blink-cursor-interval 0.2
-         :blink-cursor-delay 0.2)))
-(setq cursory-latest-state-file (locate-user-emacs-file "cursory-latest-state"))
-(cursory-set-preset (or (cursory-restore-latest-preset) 'bar))
-(add-hook 'kill-emacs-hook #'cursory-store-latest-preset)
-#+end_src
-
-* Olivetti
-
-#+begin_src emacs-lisp
-      (setq olivetti-body-width 0.7
-          olivetti-minimum-body-width 80
-          olivetti-recall-visual-line-mode-entry-state t)
-#+end_src
-
-* Ef-themes
-
-#+begin_src emacs-lisp
-(require 'ef-themes)
-          (setq ef-themes-to-toggle '(ef-deuteranopia-light ef-deuteranopia-dark))
-          (setq ef-themes-headings ; read the manual's entry or the doc string
-                '((0 . (variable-pitch light 1.9))
-                  (1 . (variable-pitch light 1.8))
-                  (2 . (variable-pitch regular 1.7))
-                  (3 . (variable-pitch regular 1.6))
-                  (4 . (variable-pitch regular 1.5))
-                  (5 . (variable-pitch 1.4)) ; absence of weight means `bold'
-                  (6 . (variable-pitch 1.3))
-                  (7 . (variable-pitch 1.2))
-                  (t . (variable-pitch 1.1))))
-          (mapc #'disable-theme custom-enabled-themes)
-          (load-theme 'ef-deuteranopia-light :noconfirm)
-          (load-theme 'ef-deuteranopia-dark t t)
-          (load-theme 'ef-day t t)
-          (load-theme 'ef-light t t)
-          (load-theme 'ef-spring t t)
-          (load-theme 'ef-summer t t)
-          (load-theme 'ef-autumn t t)
-          (load-theme 'ef-dark t t)
-          (load-theme 'ef-night t t)
-          (load-theme 'ef-winter t t)
-#+end_src
-
-* Logos
-
-#+begin_src emacs-lisp
-(require 'logos)
-(setq logos-outlines-are-pages t)
-(setq logos-outline-regexp-alist
-      `((emacs-lisp-mode . "^;;;+ ")
-        (org-mode . "^\\*+ +")
-        (markdown-mode . "^\\#+ +")
-        (t . ,(or outline-regexp logos--page-delimiter))))
-(setq-default logos-hide-mode-line t
-              logos-hide-buffer-boundaries t
-              logos-hide-fringe t
-              logos-variable-pitch t
-              logos-buffer-read-only nil
-              logos-scroll-lock nil
-              logos-olivetti t)
-#+end_src
-
-* Lin
-
-#+begin_src emacs-lisp
-(require 'lin)
-(setq lin-face 'lin-red)
-(setq lin-mode-hooks
-           '(bongo-mode-hook
-             dired-mode-hook
-             git-rebase-mode-hook
-             grep-mode-hook
-             ibuffer-mode-hook
-             ilist-mode-hook
-             ledger-report-mode-hook
-             log-view-mode-hook
-             magit-log-mode-hook
-             mu4e-headers-mode
-             notmuch-search-mode-hook
-             notmuch-tree-mode-hook
-             occur-mode-hook
-             org-mode-hook
-             org-agenda-mode-hook
-             proced-mode-hook
-             tabulated-list-mode-hook))
-(lin-global-mode 1)
-#+end_src
-
-* TMR
-
-#+begin_src emacs-lisp
-(require 'tmr)
-(setq tmr-sound-file
-      "~/Dropbox/bell.wav")
-(setq tmr-notification-urgency 'normal)
-(setq tmr-descriptions-list (list "Boil water" "Prepare tea" "Bake bread"))
-#+end_src
+#+end_src     
 
 * Denote
-
 #+begin_src emacs-lisp
 (require 'denote)
-(setq denote-directory (expand-file-name "~/Dropbox/notes/"))
-(setq denote-known-keywords '("emacs" "filosofia" "politica" "derecho"))
-(setq denote-infer-keywords t)
-(setq denote-sort-keywords t)
-(setq denote-file-type nil) ; Org is the default, set others here
-(setq denote-prompts '(title keywords))
-(setq denote-allow-multi-word-keywords t)
-(setq denote-date-format nil) ; read doc string
-(setq denote-link-fontify-backlinks t)
-(add-hook 'find-file-hook #'denote-link-buttonize-buffer)
-(setq denote-dired-directories
-      (list denote-directory
-            (thread-last denote-directory (expand-file-name "attachments"))
-            (expand-file-name "~/Dropbox/libros")))
-(add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
-(defun my-denote-journal ()
-  "Create an entry tagged 'journal', while prompting for a title."
-  (interactive)
-  (denote
-   (denote--title-prompt)
-   '("journal")))
-#+end_src
+     ;; Remember to check the doc strings of those variables.
+     (setq denote-directory (expand-file-name "~/Dropbox/notes/"))
+     (setq denote-known-keywords '("emacs" "filosofi" "politica" "derecho"))
+     (setq denote-infer-keywords t)
+     (setq denote-sort-keywords t)
+     (setq denote-file-type nil) ; Org is the default, set others here
+     (setq denote-prompts '(title keywords))
 
+     ;; Pick dates, where relevant, with Org's advanced interface:
+     (setq denote-date-prompt-use-org-read-date t)
+
+     ;; We allow multi-word keywords by default.  The author's personal
+     ;; preference is for single-word keywords for a more rigid workflow.
+     (setq denote-allow-multi-word-keywords t)
+
+     (setq denote-date-format nil) ; read doc string
+
+     ;; By default, we fontify backlinks in their bespoke buffer.
+     (setq denote-link-fontify-backlinks t)
+
+     ;; Also see `denote-link-backlinks-display-buffer-action' which is a bit
+     ;; advanced.
+
+     ;; If you use Markdown or plain text files (Org renders links as buttons
+     ;; right away)
+     (add-hook 'find-file-hook #'denote-link-buttonize-buffer)
+
+     ;; We use different ways to specify a path for demo purposes.
+     (setq denote-dired-directories
+           (list denote-directory
+                 (thread-last denote-directory (expand-file-name "attachments"))
+                 (expand-file-name "~/Dropbox/libros")))
+
+     ;; Generic (great if you rename files Denote-style in lots of places):
+     ;; (add-hook 'dired-mode-hook #'denote-dired-mode)
+     ;;
+     ;; OR if only want it in `denote-dired-directories':
+     (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
+
+     ;; Here is a custom, user-level command from one of the examples we
+     ;; showed in this manual.  We define it here and add it to a key binding
+     ;; below.
+     (defun my-denote-journal ()
+       "Create an entry tagged 'journal', while prompting for a title."
+       (interactive)
+       (denote
+        (denote--title-prompt)
+        '("journal")))
+
+     ;; Denote DOES NOT define any key bindings.  This is for the user to
+     ;; decide.  For example:
+     (let ((map global-map))
+       (define-key map (kbd "C-c n j") #'my-denote-journal) ; our custom command
+       (define-key map (kbd "C-c n n") #'denote)
+       (define-key map (kbd "C-c n N") #'denote-type)
+       (define-key map (kbd "C-c n d") #'denote-date)
+       (define-key map (kbd "C-c n s") #'denote-subdirectory)
+       (define-key map (kbd "C-c n t") #'denote-template)
+       ;; If you intend to use Denote with a variety of file types, it is
+       ;; easier to bind the link-related commands to the `global-map', as
+       ;; shown here.  Otherwise follow the same pattern for `org-mode-map',
+       ;; `markdown-mode-map', and/or `text-mode-map'.
+       (define-key map (kbd "C-c n i") #'denote-link) ; "insert" mnemonic
+       (define-key map (kbd "C-c n I") #'denote-link-add-links)
+       (define-key map (kbd "C-c n l") #'denote-link-find-file) ; "list" links
+       (define-key map (kbd "C-c n b") #'denote-link-backlinks)
+       ;; Note that `denote-rename-file' can work from any context, not just
+       ;; Dired bufffers.  That is why we bind it here to the `global-map'.
+       (define-key map (kbd "C-c n r") #'denote-rename-file)
+       (define-key map (kbd "C-c n R") #'denote-rename-file-using-front-matter))
+
+     ;; Key bindings specifically for Dired.
+     (let ((map dired-mode-map))
+       (define-key map (kbd "C-c C-d C-i") #'denote-link-dired-marked-notes)
+       (define-key map (kbd "C-c C-d C-r") #'denote-dired-rename-marked-files)
+       (define-key map (kbd "C-c C-d C-R") #'denote-dired-rename-marked-files-using-front-matter))
+
+     (with-eval-after-load 'org-capture
+       (setq denote-org-capture-specifiers "%l\n%i\n%?")
+       (add-to-list 'org-capture-templates
+                    '("n" "New note (with denote.el)" plain
+                      (file denote-last-path)
+                      #'denote-org-capture
+                      :no-save t
+                      :immediate-finish nil
+                      :kill-buffer t
+                      :jump-to-captured t)))
+#+end_src     
+                      
+* Modus Theme
+#+begin_src emacs-lisp
+  (load-theme 'modus-operandi)            ; Light theme
+  (define-key global-map (kbd "<f5>") #'modus-themes-toggle)
+#+end_src     
 * Latex
 
 Esto es algo tomado de Jake B por lo que recomiendo ver su video que
@@ -306,63 +264,6 @@ dejaré por algun lado aqui.
 Por último, estableceremos los atajos de teclado para que alguna de
 las funciones más utilizadas estén "más a la mano" a la hora de trabajar.
 
-** Logos
-#+begin_src emacs-lisp
-(let ((map global-map))
-  (define-key map [remap narrow-to-region] #'logos-narrow-dwim)
-  (define-key map [remap forward-page] #'logos-forward-page-dwim)
-  (define-key map [remap backward-page] #'logos-backward-page-dwim)
-  (define-key map (kbd "<f9>") #'logos-focus-mode))
-#+end_src
-
-** TMR
-#+begin_src emacs-lisp
-(let ((map global-map))
-  (define-key map (kbd "C-c t t") #'tmr)
-  (define-key map (kbd "C-c t T") #'tmr-with-description)
-  (define-key map (kbd "C-c t l") #'tmr-tabulated-view) ; "list timers" 
-  (define-key map (kbd "C-c t c") #'tmr-clone)
-  (define-key map (kbd "C-c t k") #'tmr-cancel)
-  (define-key map (kbd "C-c t K") #'tmr-remove-finished))
-#+end_src
-
-** Denote
-#+begin_src emacs-lisp
-(let ((map global-map))
-  (define-key map (kbd "C-c n j") #'my-denote-journal) ; our custom command
-  (define-key map (kbd "C-c n n") #'denote)
-  (define-key map (kbd "C-c n N") #'denote-type)
-  (define-key map (kbd "C-c n d") #'denote-date)
-  (define-key map (kbd "C-c n s") #'denote-subdirectory)
-  (define-key map (kbd "C-c n t") #'denote-template)
-  ;; If you intend to use Denote with a variety of file types, it is
-  ;; easier to bind the link-related commands to the `global-map', as
-  ;; shown here.  Otherwise follow the same pattern for `org-mode-map',
-  ;; `markdown-mode-map', and/or `text-mode-map'.
-  (define-key map (kbd "C-c n i") #'denote-link) ; "insert" mnemonic
-  (define-key map (kbd "C-c n I") #'denote-link-add-links)
-  (define-key map (kbd "C-c n l") #'denote-link-find-file) ; "list" links
-  (define-key map (kbd "C-c n b") #'denote-link-backlinks)
-  ;; Note that `denote-rename-file' can work from any context, not just
-  ;; Dired bufffers.  That is why we bind it here to the `global-map'.
-  (define-key map (kbd "C-c n r") #'denote-rename-file)
-  (define-key map (kbd "C-c n R") #'denote-rename-file-using-front-matter))
-(let ((map dired-mode-map))
-  (define-key map (kbd "C-c C-d C-i") #'denote-link-dired-marked-notes)
-  (define-key map (kbd "C-c C-d C-r") #'denote-dired-rename-marked-files)
-  (define-key map (kbd "C-c C-d C-R") #'denote-dired-rename-marked-files-using-front-matter))
-(with-eval-after-load 'org-capture
-  (setq denote-org-capture-specifiers "%l\n%i\n%?")
-  (add-to-list 'org-capture-templates
-	       '("n" "New note (with denote.el)" plain
-		 (file denote-last-path)
-		 #'denote-org-capture
-		 :no-save t
-		 :immediate-finish nil
-		 :kill-buffer t
-		 :jump-to-captured t)))
-#+end_src
-
 ** Org
 
 #+begin_src emacs-lisp
@@ -370,20 +271,3 @@ las funciones más utilizadas estén "más a la mano" a la hora de trabajar.
 (global-set-key (kbd "C-x v =") #'diff-buffer-with-file)
 #+end_src
 
-** Olivetti
-
-#+begin_src emacs-lisp
-(global-set-key (kbd "<f8>") #'olivetti-mode)
-#+end_src
-
-** Cursory
-
-#+begin_src emacs-lisp
-(define-key global-map (kbd "C-c p") #'cursory-set-preset)
-#+end_src
-
-** Ef-themes
-
-#+begin_src emacs-lisp
-(global-set-key (kbd "<f5>") #'ef-themes-toggle)
-#+end_src
