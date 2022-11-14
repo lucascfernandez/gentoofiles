@@ -16,6 +16,7 @@
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
+(straight-use-package 'org)
 
 (straight-use-package
  '(nano-emacs :type git :host github :repo "rougier/nano-emacs"))
@@ -24,6 +25,7 @@
 (require 'nano-colors)
 (require 'nano-faces)
 (require 'nano-theme-dark)
+;;(require 'nano-theme-light)
 (require 'nano-theme)
 (require 'nano-splash)
 (require 'nano-modeline)
@@ -34,6 +36,7 @@
 
 (nano-faces)
 (nano-theme)
+
 
 ;; (provide 'init)
 ;; ;;; init.el ends here
@@ -46,3 +49,15 @@
 
 
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-roam-completion-everywhere t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

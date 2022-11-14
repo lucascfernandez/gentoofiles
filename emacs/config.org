@@ -2,18 +2,12 @@
 #+author: Lucas Fernandez Cofré
 #+startup: overview
 
-* Packages
+* Comportamiento General
+
 #+begin_src emacs-lisp
-    (setq package-archives 
-        '(("melpa" . "https://melpa.org/packages/")
-          ("elpa" . "https://elpa.gnu.org/packages/")))
-  (package-initialize)
-  (setq use-package-always-ensure t)
-  (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
-  (eval-when-compile (require 'use-package))
+  (global-visual-line-mode 1)
 #+end_src
+
 * Fonts
 
 #+begin_src emacs-lisp
@@ -27,40 +21,152 @@
       (font-spec :name "Inconsolata Light" :size 16) nil)
   (set-fontset-font t '(#xe000 . #xffdd)
       (font-spec :name "RobotoMono Nerd Font" :size 12) nil)
+#+end_src
 
+* Packages
+
+#+begin_src emacs-lisp
+  (require 'package)
+  (add-to-list 'package-archives
+               '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+  (package-refresh-contents)
+  (use-package neotree)
+  (global-set-key [f8] 'neotree-toggle)
+  (use-package pdf-tools)
+  (pdf-tools-install)
+  (use-package org-noter)
+
+  ;; Enable vertico
+  (use-package vertico
+    :init
+    (vertico-mode)
+
+    ;; Different scroll margin
+    ;; (setq vertico-scroll-margin 0)
+
+    ;; Show more candidates
+    ;; (setq vertico-count 20)
+
+    ;; Grow and shrink the Vertico minibuffer
+    ;; (setq vertico-resize t)
+
+    ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+    ;; (setq vertico-cycle t)
+    )
+
+  ;; Persist history over Emacs restarts. Vertico sorts by history position.
+  (use-package savehist
+    :init
+    (savehist-mode))
+
+  ;; A few more useful configurations...
+  (use-package emacs
+    :init
+    ;; Add prompt indicator to `completing-read-multiple'.
+    ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+    (defun crm-indicator (args)
+      (cons (format "[CRM%s] %s"
+                    (replace-regexp-in-string
+                     "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                     crm-separator)
+                    (car args))
+            (cdr args)))
+    (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+    ;; Do not allow the cursor in the minibuffer prompt
+    (setq minibuffer-prompt-properties
+          '(read-only t cursor-intangible t face minibuffer-prompt))
+    (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+
+    (setq enable-recursive-minibuffers t))
+
+  ;; Optionally use the `orderless' completion style.
+  (use-package orderless
+    :init
+    ;; Configure a custom style dispatcher (see the Consult wiki)
+    ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
+    ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+    (setq completion-styles '(orderless basic)
+          completion-category-defaults nil
+          completion-category-overrides '((file (styles partial-completion)))))
 #+end_src
 
 * Org-Roam
 #+begin_src emacs-lisp
   (use-package org-roam
-  :ensure t
-  :init
-  (setq org-roam-v2-ack t)
-  :custom
-  (org-roam-directory "~/Dropbox/roam/")
-  (org-roam-completion-everywhere t)
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n i" . org-roam-node-insert)
-         :map org-mode-map
-         ("C-M-i" . completion-at-point))
-  :config
-  (org-roam-setup))
-#+end_src
-** Org-Agenda
+    :after org
+    :init (setq org-roam-v2-ack t) ;; Acknowledge V2 upgrade
+    :custom
+    (org-roam-directory (file-truename "~/Dropbox/roam/"))
+    :config
+    (org-roam-setup)
+    :bind (("C-c n f" . org-roam-node-find)
+           ("C-c n r" . org-roam-node-random)
+           ("C-c n d" . org-roam-dailies-capture-today)
+           (:map org-mode-map
+                 (("C-c n i" . org-roam-node-insert)
+                  ("C-c n o" . org-id-get-create)
+                  ("C-c n t" . org-roam-tag-add)
+                  ("C-c n a" . org-roam-alias-add)
+                  ("C-M-i" . completion-at-point)
+                  ("C-c n l" . org-roam-buffer-toggle)))))
+
+  (setq org-roam-capture-templates
+   '(("d" "nota por defecto" plain "%?" :target
+      (file+head "${slug}.org" "#+title: ${title}")
+      :unnarrowed t)
+     ("p" "pensamiento" plain
+      (file "~/Dropbox/roam/templates/pensamientos.org")
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: pensamientos")
+      :unnarrowed t)))
+
+
+   (use-package org-roam-ui)
+   (org-roam-db-autosync-mode)	
+
+   (setq org-roam-mode-sections
+         (list #'org-roam-backlinks-section
+               #'org-roam-reflinks-section
+               ))
+
+   (add-to-list 'display-buffer-alist
+                '("\\*org-roam\\*"
+                  (display-buffer-in-direction)
+                  (direction . right)
+                  (window-width . 0.33)
+                  (window-height . fit-window-to-buffer)))
+
+   ;; Journal Org-Dailies
+   (require 'org-roam-dailies)
+   (setq org-roam-dailies-directory "~/Dropbox/journal")
+   (setq org-roam-dailies-capture-templates
+         '(("d" "default" entry
+            "* %?"
+            :target (file+head "%<%Y-%m-%d>.org"
+                               "#+title: %<%Y-%m-%d>\n"))))
+
+  #+end_src
+
+* Org-Agenda
 
 #+begin_src emacs-lisp
-(setq org-agenda-custom-commands
-      '(
-	("n" "Planificación"
-         ((alltodo ""
-		  ((org-agenda-overriding-header "Tareas por Hacer:\n")))
-	  (agenda ""
-		  ((org-agenda-block-separator nil)
-		   (org-agenda-span 1)
-		   (org-agenda-format-date "%A, %e %b %Y")
-		   (org-agenda-overriding-header "\nAgenda Diaria:\n")))))
+  (setq org-agenda-files
+        '("~/Dropbox/agenda.org"))
+  (setq org-agenda-custom-commands
+        '(
+          ("n" "Planificación"
+           ((alltodo ""
+                     ((org-agenda-overriding-header "Tareas por Hacer:\n")))
+            (agenda ""
+                    ((org-agenda-block-separator nil)
+                     (org-agenda-span 1)
+                     (org-agenda-format-date "%A, %e %b %Y")
+                     (org-agenda-overriding-header "\nAgenda Diaria:\n")))))
           ))
+
+  (setq org-capture-templates
+        (quote (("t" "Todo" entry (file "~/Dropbox/agenda.org")
+                 "* TODO %? %^G\n%U\n"))))
 #+end_src
 
 * Latex
@@ -91,7 +197,17 @@ las funciones más utilizadas estén "más a la mano" a la hora de trabajar.
 ** Org
 
 #+begin_src emacs-lisp
-(global-set-key (kbd "C-c a") #'org-agenda)
-(global-set-key (kbd "C-x v =") #'diff-buffer-with-file)
+  (global-set-key (kbd "C-c c") #'org-capture)
+  (global-set-key (kbd "C-c a") #'org-agenda)
+  (global-set-key (kbd "C-x v =") #'diff-buffer-with-file)
+  (global-set-key (kbd "C-x c") 'calendar)
 #+end_src
+
+
+
+
+
+
+
+
 
