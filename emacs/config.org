@@ -9,8 +9,8 @@ gitscript.sh
 #+end_src
 
 #+RESULTS:
-| [main 26d29a5] commit de actualización por defecto para pequeñas modificaciones |                  |                 |
-| 2 files changed                                                                 | 75 insertions(+) | 64 deletions(-) |
+| [main 5825377] commit de actualización por defecto para pequeñas modificaciones |                 |                |
+| 1 file changed                                                                  | 9 insertions(+) | 4 deletions(-) |
 
 * Comportamiento General
 
@@ -200,8 +200,8 @@ gitscript.sh
 * Org-Agenda
 
 #+begin_src emacs-lisp
-    (setq diary-file
-          '("~/Dropbox/diary"))
+    (setq diary-file "~/Dropbox/diary")
+          
     (setq org-agenda-files
           '("~/Dropbox/agenda.org"))
     (setq org-agenda-custom-commands
@@ -254,7 +254,6 @@ las funciones más utilizadas estén "más a la mano" a la hora de trabajar.
   (global-set-key (kbd "C-x v =") #'diff-buffer-with-file)
   (global-set-key (kbd "C-x c") 'calendar)
 #+end_src
-
 
 
 
