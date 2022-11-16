@@ -2,13 +2,15 @@
 #+author: Lucas Fernandez Cofré
 #+startup: overview
 
-* Actualizar Git
+* Actualizar Repositorio Git
 
 #+begin_src bash :result output
 gitscript.sh
 #+end_src
 
-
+#+RESULTS:
+| [main 26d29a5] commit de actualización por defecto para pequeñas modificaciones |                  |                 |
+| 2 files changed                                                                 | 75 insertions(+) | 64 deletions(-) |
 
 * Comportamiento General
 
@@ -258,6 +260,9 @@ las funciones más utilizadas estén "más a la mano" a la hora de trabajar.
 
 
 
+* Babel
 
-
-
+#+begin_src emacs-lisp
+(org-babel-do-load-languages
+ 'org-babel-load-languages '((shell . t)))
+#+end_src
