@@ -187,23 +187,25 @@
 * Org-Agenda
 
 #+begin_src emacs-lisp
-  (setq org-agenda-files
-        '("~/Dropbox/agenda.org"))
-  (setq org-agenda-custom-commands
-        '(
-          ("n" "Planificación"
-           ((alltodo ""
-                     ((org-agenda-overriding-header "Tareas Agendadas:\n")))
-            (agenda ""
-                    ((org-agenda-block-separator nil)
-                     (org-agenda-span 1)
-                     (org-agenda-format-date "%A, %e %b %Y")
-                     (org-agenda-overriding-header "\nAgenda Diaria:\n")))))
-          ))
+    (setq diary-file
+          '("~/Dropbox/diary"))
+    (setq org-agenda-files
+          '("~/Dropbox/agenda.org"))
+    (setq org-agenda-custom-commands
+          '(
+            ("n" "Planificación"
+             ((alltodo ""
+                       ((org-agenda-overriding-header "Tareas Agendadas:\n")))
+              (agenda ""
+                      ((org-agenda-block-separator nil)
+                       (org-agenda-span 1)
+                       (org-agenda-format-date "%A, %e %b %Y")
+                       (org-agenda-overriding-header "\nAgenda Diaria:\n")))))
+            ))
 
-  (setq org-capture-templates
-        (quote (("t" "Todo" entry (file "~/Dropbox/agenda.org")
-                 "* TODO %? %^G\n%U\n"))))
+    (setq org-capture-templates
+          (quote (("t" "Todo" entry (file "~/Dropbox/agenda.org")
+                   "* TODO %? %^G\n%U\n"))))
 #+end_src
 
 * Latex
