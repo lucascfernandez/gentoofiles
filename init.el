@@ -25,7 +25,7 @@
 (require 'nano-colors)
 (require 'nano-faces)
 (require 'nano-theme-dark)
-(require 'nano-theme-light)
+;;(require 'nano-theme-light)
 (require 'nano-theme)
 (require 'nano-splash)
 (require 'nano-modeline)
