@@ -2,6 +2,19 @@
 #+author: Lucas Fernandez Cofré
 #+startup: overview
 
+* Índice                                                                :TOC:
+- [[#actualizar-repositorio-git][Actualizar Repositorio Git]]
+- [[#comportamiento-general][Comportamiento General]]
+- [[#fonts][Fonts]]
+- [[#packages][Packages]]
+- [[#org][Org]]
+- [[#org-roam][Org-Roam]]
+- [[#org-agenda][Org-Agenda]]
+- [[#latex][Latex]]
+- [[#key-maps][Key Maps]]
+  - [[#org-1][Org]]
+- [[#babel][Babel]]
+
 * Actualizar Repositorio Git
 
 #+begin_src bash :result output
@@ -9,8 +22,8 @@ gitscript.sh
 #+end_src
 
 #+RESULTS:
-| [main 7321fc9] commit de actualización por defecto para pequeñas modificaciones |                 |                |
-| 1 file changed                                                                  | 4 insertions(+) | 5 deletions(-) |
+| [main cccc711] commit de actualización por defecto para pequeñas modificaciones |                  |                 |
+| 1 file changed                                                                  | 24 insertions(+) | 22 deletions(-) |
 
 * Comportamiento General
 
@@ -36,72 +49,82 @@ gitscript.sh
 * Packages
 
 #+begin_src emacs-lisp
-    (require 'package)
-    (add-to-list 'package-archives
-                 '("melpa-stable" . "http://stable.melpa.org/packages/") t)
-    (package-refresh-contents)
-    (use-package neotree)
-    (global-set-key [f8] 'neotree-toggle)
-    (use-package pdf-tools)
-    (pdf-tools-install)
-    (use-package org-noter)
+  (require 'package)
+  (add-to-list 'package-archives
+               '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+  (package-refresh-contents)
+  (use-package neotree)
+  (global-set-key [f8] 'neotree-toggle)
+  (use-package pdf-tools)
+  (pdf-tools-install)
+  (use-package org-noter)
 
-    ;; Enable vertico
-    (use-package vertico
-      :init
-      (vertico-mode)
+  ;; Enable vertico
+  (use-package vertico
+    :init
+    (vertico-mode)
 
-      ;; Different scroll margin
-      ;; (setq vertico-scroll-margin 0)
+    ;; Different scroll margin
+    ;; (setq vertico-scroll-margin 0)
 
-      ;; Show more candidates
-      ;; (setq vertico-count 20)
+    ;; Show more candidates
+    ;; (setq vertico-count 20)
 
-      ;; Grow and shrink the Vertico minibuffer
-      ;; (setq vertico-resize t)
+    ;; Grow and shrink the Vertico minibuffer
+    ;; (setq vertico-resize t)
 
-      ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-      ;; (setq vertico-cycle t)
-      )
+    ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+    ;; (setq vertico-cycle t)
+    )
 
-    ;; Persist history over Emacs restarts. Vertico sorts by history position.
-    (use-package savehist
-      :init
-      (savehist-mode))
+  ;; Persist history over Emacs restarts. Vertico sorts by history position.
+  (use-package savehist
+    :init
+    (savehist-mode))
 
-    ;; A few more useful configurations...
-    (use-package emacs
-      :init
-      ;; Add prompt indicator to `completing-read-multiple'.
-      ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
-      (defun crm-indicator (args)
-        (cons (format "[CRM%s] %s"
-                      (replace-regexp-in-string
-                       "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-                       crm-separator)
-                      (car args))
-              (cdr args)))
-      (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+  ;; A few more useful configurations...
+  (use-package emacs
+    :init
+    ;; Add prompt indicator to `completing-read-multiple'.
+    ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+    (defun crm-indicator (args)
+      (cons (format "[CRM%s] %s"
+                    (replace-regexp-in-string
+                     "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                     crm-separator)
+                    (car args))
+            (cdr args)))
+    (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
 
-      ;; Do not allow the cursor in the minibuffer prompt
-      (setq minibuffer-prompt-properties
-            '(read-only t cursor-intangible t face minibuffer-prompt))
-      (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+    ;; Do not allow the cursor in the minibuffer prompt
+    (setq minibuffer-prompt-properties
+          '(read-only t cursor-intangible t face minibuffer-prompt))
+    (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-      (setq enable-recursive-minibuffers t))
+    (setq enable-recursive-minibuffers t))
 
-    ;; Optionally use the `orderless' completion style.
-    (use-package orderless
-      :init
-      ;; Configure a custom style dispatcher (see the Consult wiki)
-      ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-      ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-      (setq completion-styles '(orderless basic)
-            completion-category-defaults nil
-            completion-category-overrides '((file (styles partial-completion)))))
+  ;; Optionally use the `orderless' completion style.
+  (use-package orderless
+    :init
+    ;; Configure a custom style dispatcher (see the Consult wiki)
+    ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
+    ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+    (setq completion-styles '(orderless basic)
+          completion-category-defaults nil
+          completion-category-overrides '((file (styles partial-completion)))))
 
-    (use-package consult
-      :bind ("M-y" . consult-yank-pop))
+  (use-package consult
+    :bind ("M-y" . consult-yank-pop))
+
+  (use-package toc-org
+  :after org
+  :hook (org-mode . toc-org-enable))
+#+end_src
+
+* Org
+
+#+begin_src emacs-lisp
+(org-num-mode)
 #+end_src
 
 * Org-Roam
