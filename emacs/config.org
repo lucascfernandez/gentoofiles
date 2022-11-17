@@ -9,8 +9,8 @@ gitscript.sh
 #+end_src
 
 #+RESULTS:
-| [main 5825377] commit de actualización por defecto para pequeñas modificaciones |                 |                |
-| 1 file changed                                                                  | 9 insertions(+) | 4 deletions(-) |
+| [main 7321fc9] commit de actualización por defecto para pequeñas modificaciones |                 |                |
+| 1 file changed                                                                  | 4 insertions(+) | 5 deletions(-) |
 
 * Comportamiento General
 
@@ -200,25 +200,28 @@ gitscript.sh
 * Org-Agenda
 
 #+begin_src emacs-lisp
-    (setq diary-file "~/Dropbox/diary")
-          
-    (setq org-agenda-files
-          '("~/Dropbox/agenda.org"))
-    (setq org-agenda-custom-commands
-          '(
-            ("n" "Planificación"
-             ((alltodo ""
-                       ((org-agenda-overriding-header "Tareas Agendadas:\n")))
-              (agenda ""
-                      ((org-agenda-block-separator nil)
-                       (org-agenda-span 1)
-                       (org-agenda-format-date "%A, %e %b %Y")
-                       (org-agenda-overriding-header "\nAgenda Diaria:\n")))))
-            ))
+  (setq diary-file "~/Dropbox/diary")
 
-    (setq org-capture-templates
-          (quote (("t" "Todo" entry (file "~/Dropbox/agenda.org")
-                   "* TODO %? %^G\n%U\n"))))
+  (setq org-agenda-files
+        '("~/Dropbox/agenda.org"))
+  (setq org-agenda-custom-commands
+        '(
+          ("n" "Planificación"
+           ((alltodo ""
+                     ((org-agenda-overriding-header "Tareas Agendadas:\n")))
+            (agenda ""
+                    ((org-agenda-block-separator nil)
+                     (org-agenda-span 1)
+                     (org-agenda-format-date "%A, %e %b %Y")
+                     (org-agenda-overriding-header "\nAgenda Diaria:\n")))))
+          ))
+
+  (setq org-capture-templates
+        (quote (("t" "Todo" entry (file "~/Dropbox/agenda.org")
+                 "* TODO %? %^G\n%U\n"))))
+  (appt-activate)
+  (org-agenda-to-appt)
+  (setq calendar-setup 'one-frame)
 #+end_src
 
 * Latex
@@ -254,7 +257,6 @@ las funciones más utilizadas estén "más a la mano" a la hora de trabajar.
   (global-set-key (kbd "C-x v =") #'diff-buffer-with-file)
   (global-set-key (kbd "C-x c") 'calendar)
 #+end_src
-
 
 
 
