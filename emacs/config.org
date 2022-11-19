@@ -1,3 +1,4 @@
+
 #+title: Emacs Config
 #+author: Lucas Fernandez Cofré
 #+startup: overview
@@ -11,7 +12,6 @@
 - [[#org-agenda][Org-Agenda]]
 - [[#latex][Latex]]
 - [[#key-maps][Key Maps]]
-  - [[#org][Org]]
 - [[#babel][Babel]]
 
 * Actualizar Repositorio Git
@@ -28,21 +28,23 @@ gitscript.sh
 
 #+begin_src emacs-lisp
   (global-visual-line-mode 1)
+  (setq-default left-margin-width 5 right-margin-width 4) ; Define new widths.
+  (set-window-buffer nil (current-buffer)) ; Use them now.
 #+end_src
 
 * Fonts
 
 #+begin_src emacs-lisp
   (set-face-attribute 'default nil
-		      :family "Roboto Mono" :weight 'light :height 140)
+                      :family "Roboto Mono" :weight 'light :height 130)
   (set-face-attribute 'bold nil
-		      :family "Roboto Mono" :weight 'regular)
+                      :family "Roboto Mono" :weight 'regular)
   (set-face-attribute 'italic nil
-		      :family "Victor Mono" :weight 'semilight :slant 'italic)
+                      :family "Victor Mono" :weight 'semilight :slant 'italic)
   (set-fontset-font t 'unicode
-      (font-spec :name "Inconsolata Light" :size 16) nil)
+                    (font-spec :name "Inconsolata Light" :size 16) nil)
   (set-fontset-font t '(#xe000 . #xffdd)
-      (font-spec :name "RobotoMono Nerd Font" :size 12) nil)
+                    (font-spec :name "RobotoMono Nerd Font" :size 12) nil)
 #+end_src
 
 * Packages
@@ -116,8 +118,8 @@ gitscript.sh
     :bind ("M-y" . consult-yank-pop))
 
   (use-package toc-org
-  :after org
-  :hook (org-mode . toc-org-enable))
+    :after org
+    :hook (org-mode . toc-org-enable))
 #+end_src
 
 * Org-Roam
@@ -211,7 +213,7 @@ gitscript.sh
            :target (file+head "%<%Y-%m-%d>.org"
                               "#+title: %<%Y-%m-%d>\n"))))
 
-  #+end_src
+#+end_src
 
 * Org-Agenda
 
@@ -246,18 +248,18 @@ Esto es algo tomado de Jake B por lo que recomiendo ver su video que
 dejaré por algun lado aqui.
 
 #+begin_src emacs-lisp
-(with-eval-after-load 'ox-latex
-(add-to-list 'org-latex-classes
-             '("org-plain-latex"
-               "\\documentclass{article}
-           [NO-DEFAULT-PACKAGES]
-           [PACKAGES]
-           [EXTRA]"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+  (with-eval-after-load 'ox-latex
+    (add-to-list 'org-latex-classes
+                 '("org-plain-latex"
+                   "\\documentclass{article}
+             [NO-DEFAULT-PACKAGES]
+             [PACKAGES]
+             [EXTRA]"
+                   ("\\section{%s}" . "\\section*{%s}")
+                   ("\\subsection{%s}" . "\\subsection*{%s}")
+                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 #+end_src
 
 * Key Maps
@@ -265,19 +267,21 @@ dejaré por algun lado aqui.
 Por último, estableceremos los atajos de teclado para que alguna de
 las funciones más utilizadas estén "más a la mano" a la hora de trabajar.
 
-** Org
-
 #+begin_src emacs-lisp
+  ;; Org
   (global-set-key (kbd "C-c c") #'org-capture)
   (global-set-key (kbd "C-c a") #'org-agenda)
+  (global-set-key (kbd "C-c h") 'consult-org-heading)
+  ;; Buffer
   (global-set-key (kbd "C-x v =") #'diff-buffer-with-file)
+  ;; Utilities
   (global-set-key (kbd "C-x c") 'calendar)
+
 #+end_src
 
-
-
-
 * Babel
+
+Esto es para evaluar comandos en shell desde un documento org.
 
 #+begin_src emacs-lisp
 (org-babel-do-load-languages
