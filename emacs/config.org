@@ -21,8 +21,10 @@ gitscript.sh
 #+end_src
 
 #+RESULTS:
-| [main 307e9c7] commit de actualización por defecto para pequeñas modificaciones |                  |                 |
-| 1 file changed                                                                  | 91 insertions(+) | 68 deletions(-) |
+| En   | la   | rama  | main        |     |                |    |         |      |        |
+| Tu   | rama | está  | actualizada | con | 'origin/main'. |    |         |      |        |
+|      |      |       |             |     |                |    |         |      |        |
+| nada | para | hacer | commit,     | el  | árbol          | de | trabajo | está | limpio |
 
 * Comportamiento General
 
