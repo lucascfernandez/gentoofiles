@@ -162,17 +162,6 @@ gitscript.sh
         :hook (org-mode . olivetti-mode)
         :bind
         (("<f9>" . olivetti-mode)))
-
-      ;; Dark/light theme toggeling
-      ;;
-      (use-package toggle-theme
-        :config
-        (setq toggle-theme--light-theme 'leuven
-              toggle-theme--dark-theme 'leuven-dark)
-        :bind
-        (global-set-key (kbd "<f5>") #'toggle-theme))
-
-
 #+end_src
 
 * Org
