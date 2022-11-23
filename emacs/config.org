@@ -22,45 +22,40 @@ gitscript.sh
 #+end_src
 
 #+RESULTS:
-| [main 8240fcd] commit de actualización por defecto para pequeñas modificaciones |                |                 |
-| 2 files changed                                                                 | 1 insertion(+) | 22 deletions(-) |
+| [main 0527e9a] commit de actualización por defecto para pequeñas modificaciones |                  |                 |
+| 1 file changed                                                                  | 82 insertions(+) | 95 deletions(-) |
 
 * Comportamiento General
 #+begin_src emacs-lisp
   (menu-bar-mode -1)
   (tool-bar-mode -1)
-  (defun my/disable-scroll-bars (frame)
-    (modify-frame-parameters frame
-                             '((vertical-scroll-bars . nil)
-                               (horizontal-scroll-bars . nil))))
-  (add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
+  (setq inhibit-splash-screen t)
+  (scroll-bar-mode -1) 
   (blink-cursor-mode -1)
   (load-theme 'leuven t)
   (global-set-key [(control x) (k)] 'kill-this-buffer)
   (setq search-whitespace-regexp ".*")
   (setq isearch-lax-whitespace t)
   (setq isearch-regexp-lax-whitespace nil)
-  (setq initial-scratch-message ";; ようこそルーカス、長生きする自由な知識とパリアの人々!\n\n\n")
-#+end_src
+  (setq initial-scratch-message "\n;; ようこそルーカス、長生きする自由な知識とパリアの人々!\n\n\n")
+  #+end_src
 
 * Fonts
 
 #+begin_src emacs-lisp
   (set-face-attribute 'default nil
-                      :family "DejaVu Sans Mono" :weight 'light :height 140)
+		      :family "DejaVu Sans Mono" :weight 'light :height 140)
   (set-face-attribute 'bold nil
-                      :family "Roboto Mono" :weight 'regular)
+		      :family "Roboto Mono" :weight 'regular)
   (set-face-attribute 'italic nil
-                      :family "Victor Mono" :weight 'semilight :slant 'italic)
+		      :family "Victor Mono" :weight 'semilight :slant 'italic)
   (set-fontset-font t 'unicode
-                    (font-spec :name "Inconsolata Light" :size 16) nil)
+		    (font-spec :name "Inconsolata Light" :size 16) nil)
   (set-fontset-font t '(#xe000 . #xffdd)
-                    (font-spec :name "RobotoMono Nerd Font" :size 12) nil)
+		    (font-spec :name "RobotoMono Nerd Font" :size 12) nil)
 #+end_src
 
 * Repositorios
-
-
 #+begin_src emacs-lisp
   (require 'package)
   (add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/"))
@@ -68,23 +63,15 @@ gitscript.sh
   (package-initialize)
 
   (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
     (package-install 'use-package))
   (eval-and-compile
     (setq use-package-always-ensure t
 	  use-package-expand-minimally t))
-  (package-refresh-contents)
-
 #+end_src
 
 * Packages
 
 #+begin_src emacs-lisp
-  (use-package pdf-tools)
-  (pdf-tools-install)
-
-  (use-package org-noter)
-
   ;; Enable vertico
   (use-package vertico
     :init
@@ -115,29 +102,31 @@ gitscript.sh
     ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
     (defun crm-indicator (args)
       (cons (format "[CRM%s] %s"
-                    (replace-regexp-in-string
-                     "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-                     crm-separator)
-                    (car args))
-            (cdr args)))
+		    (replace-regexp-in-string
+		     "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+		     crm-separator)
+		    (car args))
+	    (cdr args)))
     (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
 
     ;; Do not allow the cursor in the minibuffer prompt
     (setq minibuffer-prompt-properties
-          '(read-only t cursor-intangible t face minibuffer-prompt))
+	  '(read-only t cursor-intangible t face minibuffer-prompt))
     (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
+    ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
+    ;; Vertico commands are hidden in normal buffers.
+    ;; (setq read-extended-command-predicate
+    ;;       #'command-completion-default-include-p)
+
+    ;; Enable recursive minibuffers
     (setq enable-recursive-minibuffers t))
 
-  ;; Optionally use the `orderless' completion style.
   (use-package orderless
     :init
-    ;; Configure a custom style dispatcher (see the Consult wiki)
-    ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-    ;;       orderless-component-separator #'orderless-escapable-split-on-space)
     (setq completion-styles '(orderless basic)
-          completion-category-defaults nil
-          completion-category-overrides '((file (styles partial-completion)))))
+	  completion-category-defaults nil
+	  completion-category-overrides '((file (styles partial-completion)))))
 
   (use-package consult
     :bind ("M-y" . consult-yank-pop))
@@ -151,7 +140,9 @@ gitscript.sh
     :hook (org-mode . olivetti-mode)
     :bind
     (("<f9>" . olivetti-mode)))
-  #+end_src
+
+  (use-package org-roam-ui)
+#+end_src
 
 * Org
 #+begin_src emacs-lisp
@@ -167,115 +158,79 @@ gitscript.sh
 * Org-Roam
 #+begin_src emacs-lisp
   (use-package org-roam
-    :after org
-    :init (setq org-roam-v2-ack t) ;; Acknowledge V2 upgrade
-    :custom
-    (org-roam-directory (file-truename "~/Dropbox/roam/"))
-    :config
-    (org-roam-setup)
-    :bind (("C-c n f" . org-roam-node-find)
-           ("C-c n r" . org-roam-node-random)
-           ("C-c n d" . org-roam-dailies-capture-today)
-           ("C-c n D" . org-roam-dailies-goto-today)
-           ("C-c n v" . org-roam-dailies-capture-date)
-           ("C-c n V" . org-roam-dailies-goto-date)
-           (:map org-mode-map
-                 (("C-c n i" . org-roam-node-insert)
-                  ("C-c n o" . org-id-get-create)
-                  ("C-c n t" . org-roam-tag-add)
-                  ("C-c n a" . org-roam-alias-add)
-                  ("C-M-i" . completion-at-point)
-                  ("C-c n l" . org-roam-buffer-toggle)))))
+	       :after org
+	       :init (setq org-roam-v2-ack t) ;; Acknowledge V2 upgrade
+	       :custom
+	       (org-roam-directory (file-truename "~/Dropbox/roam/"))
+	       :config
+	       (org-roam-setup)
+	       :bind (("C-c n f" . org-roam-node-find)
+		      ("C-c n r" . org-roam-node-random)
+		      ("C-c n d" . org-roam-dailies-capture-today)
+		      ("C-c n D" . org-roam-dailies-goto-today)
+		      ("C-c n v" . org-roam-dailies-capture-date)
+		      ("C-c n V" . org-roam-dailies-goto-date)
+		      (:map org-mode-map
+			    (("C-c n i" . org-roam-node-insert)
+			     ("C-c n o" . org-id-get-create)
+			     ("C-c n t" . org-roam-tag-add)
+			     ("C-c n a" . org-roam-alias-add)
+			     ("C-M-i" . completion-at-point)
+			     ("C-c n l" . org-roam-buffer-toggle)))))
 
   (setq org-roam-capture-templates
-        '(("d" "nota por defecto" plain "%?" :target
-           (file+head "${slug}.org" "#+title: ${title}")
-           :unnarrowed t)
-          ("p" "pensamiento" plain
-           (file "~/Dropbox/roam/templates/pensamientos.org")
-           :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: pensamientos")
-           :unnarrowed t)))
+	'(("d" "nota por defecto" plain "%?" :target
+	   (file+head "${slug}.org" "#+title: ${title}")
+	   :unnarrowed t)
+	  ("p" "pensamiento" plain
+	   (file "~/Dropbox/roam/templates/pensamientos.org")
+	   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: pensamientos")
+	   :unnarrowed t)))
 
   (defun my/org-roam-capture-inbox ()
     (interactive)
     (org-roam-capture- :node (org-roam-node-create)
-                       :templates '(("i" "inbox" plain "* %?"
-                                     :if-new (file+head "Inbox.org" "#+title: Inbox\n")))))
+		       :templates '(("i" "inbox" plain "* %?"
+				     :if-new (file+head "Inbox.org" "#+title: Inbox\n")))))
 
   (global-set-key (kbd "C-c n b") #'my/org-roam-capture-inbox)
 
-  ;; Pasar tareas a dailies log
-  (defun my/org-roam-copy-todo-to-today ()
-    (interactive)
-    (let ((org-refile-keep nil) ;; Set this to nil to delete the original!
-          (org-roam-dailies-capture-templates
-           '(("t" "registro" entry "%?"
-              :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n" ("Registro")))))
-          (org-after-refile-insert-hook #'save-buffer)
-          today-file
-          pos)
-      (save-window-excursion
-        (org-roam-dailies--capture (current-time) t)
-        (setq today-file (buffer-file-name))
-        (setq pos (point)))
-
-      ;; Only refile if the target file is different than the current file
-      (unless (equal (file-truename today-file)
-                     (file-truename (buffer-file-name)))
-        (org-refile nil nil (list "Tasks" today-file nil pos)))))
-
-  (add-to-list 'org-after-todo-state-change-hook
-               (lambda ()
-                 (when (equal org-state "DONE")
-                   (my/org-roam-copy-todo-to-today))))
-
   (setq org-roam-mode-sections
-        (list #'org-roam-backlinks-section
-              #'org-roam-reflinks-section
-              ))
+	(list #'org-roam-backlinks-section
+	      #'org-roam-reflinks-section
+	      ))
 
   (add-to-list 'display-buffer-alist
-               '("\\*org-roam\\*"
-                 (display-buffer-in-direction)
-                 (direction . right)
-                 (window-width . 0.33)
-                 (window-height . fit-window-to-buffer)))
+	       '("\\*org-roam\\*"
+		 (display-buffer-in-direction)
+		 (direction . right)
+		 (window-width . 0.33)
+		 (window-height . fit-window-to-buffer)))
 
   ;; Journal Org-Dailies
   (require 'org-roam-dailies)
   (setq org-roam-dailies-directory "~/Dropbox/journal")
   (setq org-roam-dailies-capture-templates
-        '(("d" "default" entry
-           "* %?"
-           :target (file+head "%<%Y-%m-%d>.org"
-                              "#+title: %<%Y-%m-%d>\n"))))
+	'(("d" "default" entry
+	   "* %?"
+	   :target (file+head "%<%Y-%m-%d>.org"
+			      "#+title: %<%Y-%m-%d>\n"))))
 
-  (org-roam-db-autosync-mode)	
-  (use-package org-roam-ui)
+  (org-roam-db-autosync-mode)
 #+end_src
 
 * Org-Agenda
 
 #+begin_src emacs-lisp
   (setq diary-file "~/Dropbox/diary")
+  (appt-activate 1) ;; siempre debe ir después de establecer el archivo
 
   (setq org-agenda-files
-        '("~/Dropbox/agenda.org"))
-  (setq org-agenda-custom-commands
-        '(
-          ("n" "Planificación"
-           ((alltodo ""
-                     ((org-agenda-overriding-header "Tareas Agendadas:\n")))
-            (agenda ""
-                    ((org-agenda-block-separator nil)
-                     (org-agenda-span 1)
-                     (org-agenda-format-date "%A, %e %b %Y")
-                     (org-agenda-overriding-header "\nAgenda Diaria:\n")))))
-          ))
+        '("~/Dropbox/registro.org"))
 
   (setq org-capture-templates
-        (quote (("t" "Todo" entry (file "~/Dropbox/agenda.org")
-                 "* TODO %? %^G\n%U\n"))))
+        (quote (("n" "Notas Rápidas" entry (file "~/Dropbox/registro.org")
+                 "* %T %^G\n\n%?\n\n________________\n"))))
 #+end_src
 
 * Latex
