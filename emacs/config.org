@@ -5,7 +5,6 @@
 * Índice                                                                :TOC:
 - [[#actualizar-repositorio-git][Actualizar Repositorio Git]]
 - [[#comportamiento-general][Comportamiento General]]
-- [[#fonts][Fonts]]
 - [[#repositorios][Repositorios]]
 - [[#packages][Packages]]
 - [[#org][Org]]
@@ -14,6 +13,7 @@
 - [[#latex][Latex]]
 - [[#key-maps][Key Maps]]
 - [[#babel][Babel]]
+- [[#fonts][Fonts]]
 
 * Actualizar Repositorio Git
 
@@ -22,8 +22,9 @@ gitscript.sh
 #+end_src
 
 #+RESULTS:
-| [main 0527e9a] commit de actualización por defecto para pequeñas modificaciones |                  |                 |
-| 1 file changed                                                                  | 82 insertions(+) | 95 deletions(-) |
+| [main   | 34a0520]      | commit   | de | actualización  | por | defecto      | para | pequeñas | modificaciones |
+| 1       | file          | changed, | 17 | insertions(+), |  63 | deletions(-) |      |          |                |
+| rewrite | emacs/init.el | (66%)    |    |                |     |              |      |          |                |
 
 * Comportamiento General
 #+begin_src emacs-lisp
@@ -38,22 +39,8 @@ gitscript.sh
   (setq isearch-lax-whitespace t)
   (setq isearch-regexp-lax-whitespace nil)
   (setq initial-scratch-message "\n;; ようこそルーカス、長生きする自由な知識とパリアの人々!\n\n\n")
+  (setq user-full-name "Lucas Fernandez Cofré")
   #+end_src
-
-* Fonts
-
-#+begin_src emacs-lisp
-  (set-face-attribute 'default nil
-		      :family "DejaVu Sans Mono" :weight 'light :height 140)
-  (set-face-attribute 'bold nil
-		      :family "Roboto Mono" :weight 'regular)
-  (set-face-attribute 'italic nil
-		      :family "Victor Mono" :weight 'semilight :slant 'italic)
-  (set-fontset-font t 'unicode
-		    (font-spec :name "Inconsolata Light" :size 16) nil)
-  (set-fontset-font t '(#xe000 . #xffdd)
-		    (font-spec :name "RobotoMono Nerd Font" :size 12) nil)
-#+end_src
 
 * Repositorios
 #+begin_src emacs-lisp
@@ -182,9 +169,9 @@ gitscript.sh
 	'(("d" "nota por defecto" plain "%?" :target
 	   (file+head "${slug}.org" "#+title: ${title}")
 	   :unnarrowed t)
-	  ("p" "pensamiento" plain
-	   (file "~/Dropbox/roam/templates/pensamientos.org")
-	   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: pensamientos")
+	  ("l" "Notas Libro" plain
+	   (file "~/Dropbox/roam/templates/libros.org")
+	   :if-new (file+head "${slug}.org" "#+title: ${title}\n#+filetags: libros")
 	   :unnarrowed t)))
 
   (defun my/org-roam-capture-inbox ()
@@ -278,3 +265,18 @@ Esto es para evaluar comandos en shell desde un documento org.
 (org-babel-do-load-languages
  'org-babel-load-languages '((shell . t)))
 #+end_src
+* Fonts
+
+#+begin_src emacs-lisp
+  (set-face-attribute 'default nil
+		      :family "DejaVu Sans Mono" :weight 'light :height 140)
+  (set-face-attribute 'bold nil
+		      :family "Roboto Mono" :weight 'regular)
+  (set-face-attribute 'italic nil
+		      :family "Victor Mono" :weight 'semilight :slant 'italic)
+  (set-fontset-font t 'unicode
+		    (font-spec :name "Inconsolata Light" :size 16) nil)
+  (set-fontset-font t '(#xe000 . #xffdd)
+		    (font-spec :name "RobotoMono Nerd Font" :size 12) nil)
+#+end_src
+
