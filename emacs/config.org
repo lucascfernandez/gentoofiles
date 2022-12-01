@@ -22,9 +22,9 @@ gitscript.sh
 #+end_src
 
 #+RESULTS:
-| [main   | 34a0520]      | commit   | de | actualización  | por | defecto      | para | pequeñas | modificaciones |
-| 1       | file          | changed, | 17 | insertions(+), |  63 | deletions(-) |      |          |                |
-| rewrite | emacs/init.el | (66%)    |    |                |     |              |      |          |                |
+| [main  | 414caa2] | commit   | de      | actualización  | por | defecto      | para | pequeñas | modificaciones |
+| 2      | files    | changed, | 23      | insertions(+), |  38 | deletions(-) |      |          |                |
+| delete | mode     | 100644   | init.el |                |     |              |      |          |                |
 
 * Comportamiento General
 #+begin_src emacs-lisp
@@ -40,6 +40,9 @@ gitscript.sh
   (setq isearch-regexp-lax-whitespace nil)
   (setq initial-scratch-message "\n;; ようこそルーカス、長生きする自由な知識とパリアの人々!\n\n\n")
   (setq user-full-name "Lucas Fernandez Cofré")
+  ;; Muy útil para mejorar el scroll desde teclado
+  (global-set-key (kbd "C-v") 'View-scroll-half-page-forward)
+  (global-set-key (kbd "M-v") 'View-scroll-half-page-backward)
   #+end_src
 
 * Repositorios
@@ -89,16 +92,16 @@ gitscript.sh
     ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
     (defun crm-indicator (args)
       (cons (format "[CRM%s] %s"
-		    (replace-regexp-in-string
-		     "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-		     crm-separator)
-		    (car args))
-	    (cdr args)))
+                    (replace-regexp-in-string
+                     "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                     crm-separator)
+                    (car args))
+            (cdr args)))
     (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
 
     ;; Do not allow the cursor in the minibuffer prompt
     (setq minibuffer-prompt-properties
-	  '(read-only t cursor-intangible t face minibuffer-prompt))
+          '(read-only t cursor-intangible t face minibuffer-prompt))
     (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
     ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
@@ -112,8 +115,8 @@ gitscript.sh
   (use-package orderless
     :init
     (setq completion-styles '(orderless basic)
-	  completion-category-defaults nil
-	  completion-category-overrides '((file (styles partial-completion)))))
+          completion-category-defaults nil
+          completion-category-overrides '((file (styles partial-completion)))))
 
   (use-package consult
     :bind ("M-y" . consult-yank-pop))
@@ -145,75 +148,90 @@ gitscript.sh
 * Org-Roam
 #+begin_src emacs-lisp
   (use-package org-roam
-	       :after org
-	       :init (setq org-roam-v2-ack t) ;; Acknowledge V2 upgrade
-	       :custom
-	       (org-roam-directory (file-truename "~/Dropbox/roam/"))
-	       :config
-	       (org-roam-setup)
-	       :bind (("C-c n f" . org-roam-node-find)
-		      ("C-c n r" . org-roam-node-random)
-		      ("C-c n d" . org-roam-dailies-capture-today)
-		      ("C-c n D" . org-roam-dailies-goto-today)
-		      ("C-c n v" . org-roam-dailies-capture-date)
-		      ("C-c n V" . org-roam-dailies-goto-date)
-		      (:map org-mode-map
-			    (("C-c n i" . org-roam-node-insert)
-			     ("C-c n o" . org-id-get-create)
-			     ("C-c n t" . org-roam-tag-add)
-			     ("C-c n a" . org-roam-alias-add)
-			     ("C-M-i" . completion-at-point)
-			     ("C-c n l" . org-roam-buffer-toggle)))))
+               :after org
+               :init (setq org-roam-v2-ack t) ;; Acknowledge V2 upgrade
+               :custom
+               (org-roam-directory (file-truename "~/Dropbox/roam/"))
+               :config
+               (org-roam-setup)
+               :bind (("C-c n f" . org-roam-node-find)
+                      ("C-c n r" . org-roam-node-random)
+                      ("C-c n d" . org-roam-dailies-capture-today)
+                      ("C-c n D" . org-roam-dailies-goto-today)
+                      ("C-c n v" . org-roam-dailies-capture-date)
+                      ("C-c n V" . org-roam-dailies-goto-date)
+                      (:map org-mode-map
+                            (("C-c n i" . org-roam-node-insert)
+                             ("C-c n o" . org-id-get-create)
+                             ("C-c n t" . org-roam-tag-add)
+                             ("C-c n a" . org-roam-alias-add)
+                             ("C-M-i" . completion-at-point)
+                             ("C-c n l" . org-roam-buffer-toggle)))))
 
   (setq org-roam-capture-templates
-	'(("d" "nota por defecto" plain "%?" :target
-	   (file+head "${slug}.org" "#+title: ${title}")
-	   :unnarrowed t)
-	  ("l" "Notas Libro" plain
-	   (file "~/Dropbox/roam/templates/libros.org")
-	   :if-new (file+head "${slug}.org" "#+title: ${title}\n#+filetags: libros")
-	   :unnarrowed t)))
+        '(("d" "nota por defecto" plain "%?" :target
+           (file+head "${slug}.org" "#+title: ${title}")
+           :unnarrowed t)
+          ("l" "Notas Libro" plain
+           (file "~/Dropbox/roam/templates/libros.org")
+           :if-new (file+head "${slug}.org" "#+title: ${title}\n#+filetags: libros")
+           :unnarrowed t)))
 
   (defun my/org-roam-capture-inbox ()
     (interactive)
     (org-roam-capture- :node (org-roam-node-create)
-		       :templates '(("i" "inbox" plain "* %?"
-				     :if-new (file+head "Inbox.org" "#+title: Inbox\n")))))
+                       :templates '(("i" "inbox" plain "* %?"
+                                     :if-new (file+head "Inbox.org" "#+title: Inbox\n")))))
 
   (global-set-key (kbd "C-c n b") #'my/org-roam-capture-inbox)
 
   (setq org-roam-mode-sections
-	(list #'org-roam-backlinks-section
-	      #'org-roam-reflinks-section
-	      ))
+        (list #'org-roam-backlinks-section
+              #'org-roam-reflinks-section
+              ))
 
   (add-to-list 'display-buffer-alist
-	       '("\\*org-roam\\*"
-		 (display-buffer-in-direction)
-		 (direction . right)
-		 (window-width . 0.33)
-		 (window-height . fit-window-to-buffer)))
+               '("\\*org-roam\\*"
+                 (display-buffer-in-direction)
+                 (direction . right)
+                 (window-width . 0.33)
+                 (window-height . fit-window-to-buffer)))
 
   ;; Journal Org-Dailies
   (require 'org-roam-dailies)
   (setq org-roam-dailies-directory "~/Dropbox/journal")
   (setq org-roam-dailies-capture-templates
-	'(("d" "default" entry
-	   "* %?"
-	   :target (file+head "%<%Y-%m-%d>.org"
-			      "#+title: %<%Y-%m-%d>\n"))))
+        '(("d" "default" entry
+           "* %?"
+           :target (file+head "%<%Y-%m-%d>.org"
+                              "#+title: %<%Y-%m-%d>\n"))))
 
   (org-roam-db-autosync-mode)
+
+  (setq org-roam-node-display-template "${title:*} ${tags:30}")
 #+end_src
 
 * Org-Agenda
 
 #+begin_src emacs-lisp
+  ;; Calendar
+  (setq calendar-date-style 'iso)
+  (setq calendar-week-start-day 1)
+  (setq calendar-day-header-array ["Do" "Lu" "Ma" "Mi" "Ju" "Vi" "Sá"])
+  (setq calendar-day-name-array ["domingo" "lunes" "martes" "miércoles" "jueves" "viernes" "sábado"])
+  (setq calendar-month-abbrev-array ["Ene" "Feb" "Mar" "Abr" "May" "Jun" "Jul" "Ago" "Sep" "Oct" "Nov" "Dic"])
+  (setq calendar-month-name-array ["enero" "febrero" "marzo" "abril" "mayo" "junio" "julio" "agosto" "septiembre" "octubre" "noviembre" "diciembre"])
+  ;; Diary
   (setq diary-file "~/Dropbox/diary")
+  (setq org-agenda-diary-file "~/Dropbox/diary")
+  (setq org-agenda-include-diary t)
   (appt-activate 1) ;; siempre debe ir después de establecer el archivo
-
+  ;; Agenda
   (setq org-agenda-files
         '("~/Dropbox/registro.org"))
+  (setq org-agenda-start-with-log-mode t)
+  (setq org-log-done 'time)
+  (setq org-log-into-drawer t)
 
   (setq org-capture-templates
         (quote (("n" "Notas Rápidas" entry (file "~/Dropbox/registro.org")
@@ -249,11 +267,12 @@ las funciones más utilizadas estén "más a la mano" a la hora de trabajar.
   ;; Org
   (global-set-key (kbd "C-c c") #'org-capture)
   (global-set-key (kbd "C-c a") #'org-agenda)
-  (global-set-key (kbd "C-c h") 'consult-org-heading)
   ;; Buffer
   (global-set-key (kbd "C-x v =") #'diff-buffer-with-file)
   ;; Utilities
   (global-set-key (kbd "C-x c") 'calendar)
+  ;; Comportamiento
+  (global-set-key (kbd "M-i") 'imenu)
 
 #+end_src
 
@@ -269,14 +288,14 @@ Esto es para evaluar comandos en shell desde un documento org.
 
 #+begin_src emacs-lisp
   (set-face-attribute 'default nil
-		      :family "DejaVu Sans Mono" :weight 'light :height 140)
+                      :family "DejaVu Sans Mono" :weight 'light :height 140)
   (set-face-attribute 'bold nil
-		      :family "Roboto Mono" :weight 'regular)
+                      :family "Roboto Mono" :weight 'regular)
   (set-face-attribute 'italic nil
-		      :family "Victor Mono" :weight 'semilight :slant 'italic)
+                      :family "Victor Mono" :weight 'semilight :slant 'italic)
   (set-fontset-font t 'unicode
-		    (font-spec :name "Inconsolata Light" :size 16) nil)
+                    (font-spec :name "Inconsolata Light" :size 16) nil)
   (set-fontset-font t '(#xe000 . #xffdd)
-		    (font-spec :name "RobotoMono Nerd Font" :size 12) nil)
+                    (font-spec :name "RobotoMono Nerd Font" :size 12) nil)
 #+end_src
 
