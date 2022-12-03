@@ -22,9 +22,8 @@ gitscript.sh
 #+end_src
 
 #+RESULTS:
-| [main  | 414caa2] | commit   | de      | actualización  | por | defecto      | para | pequeñas | modificaciones |
-| 2      | files    | changed, | 23      | insertions(+), |  38 | deletions(-) |      |          |                |
-| delete | mode     | 100644   | init.el |                |     |              |      |          |                |
+| [main 15430ee] commit de actualización por defecto para pequeñas modificaciones |                  |                 |
+| 2 files changed                                                                 | 78 insertions(+) | 59 deletions(-) |
 
 * Comportamiento General
 #+begin_src emacs-lisp
@@ -43,6 +42,12 @@ gitscript.sh
   ;; Muy útil para mejorar el scroll desde teclado
   (global-set-key (kbd "C-v") 'View-scroll-half-page-forward)
   (global-set-key (kbd "M-v") 'View-scroll-half-page-backward)
+  ;; === Smooth scroll ==
+  (setq redisplay-dont-pause t
+        scroll-margin 1
+        scroll-step 1
+        scroll-conservatively 10000
+        scroll-preserve-screen-position 1)
   #+end_src
 
 * Repositorios
@@ -132,6 +137,30 @@ gitscript.sh
     (("<f9>" . olivetti-mode)))
 
   (use-package org-roam-ui)
+
+  (use-package pdf-tools)
+  (pdf-tools-install)
+
+  (use-package org-noter)
+
+  (use-package org-gtd
+    :after org
+    :demand t
+    :custom
+    (org-gtd-directory "~/org-gtd")
+    (org-edna-use-inheritance t)
+    :config
+    (org-edna-mode)
+    :bind
+    (("C-c d c" . org-gtd-capture)
+     ("C-c d e" . org-gtd-engage)
+     ("C-c d p" . org-gtd-process-inbox)
+     ("C-c d n" . org-gtd-show-all-next)
+     ("C-c d s" . org-gtd-show-stuck-projects)
+     :map org-gtd-process-map
+     ("C-c c" . org-gtd-choose)))
+
+  (setq org-gtd-directory "~/Dropbox/org-gtd")
 #+end_src
 
 * Org
@@ -232,10 +261,43 @@ gitscript.sh
   (setq org-agenda-start-with-log-mode t)
   (setq org-log-done 'time)
   (setq org-log-into-drawer t)
+  ;; Todo
+  (setq org-todo-keywords
+        (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+                (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)"))))
+  (setq-default org-enforce-todo-dependencies t)
+  (setq org-todo-keyword-faces
+        (quote (("TODO" :foreground "red" :weight bold)
+                ("NEXT" :foreground "blue" :weight bold)
+                ("DONE" :foreground "forest green" :weight bold)
+                ("WAITING" :foreground "orange" :weight bold)
+                ("HOLD" :foreground "magenta" :weight bold)
+                ("CANCELLED" :foreground "forest green" :weight bold)
+                ("MEETING" :foreground "forest green" :weight bold)
+                ("PHONE" :foreground "forest green" :weight bold))))
+
+  (setq org-ellipsis " ▼ ")
+
+  ;; Resume clocking task when emacs is restarted
+  (org-clock-persistence-insinuate)
+  ;; Show lot of clocking history so it's easy to pick items off the C-F11 list
+  (setq org-clock-history-length 23)
+  ;; Resume clocking task on clock-in if the clock is open
+  (setq org-clock-in-resume t)
+  ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
+  (setq org-clock-out-remove-zero-time-clocks t)
+  ;; Clock out when moving task to a done state
+  (setq org-clock-out-when-done t)
+  ;; Save the running clock and all clock history when exiting Emacs, load it on startup
+  (setq org-clock-persist t)
+  ;; Include current clocking task in clock reports
+  (setq org-clock-report-include-clocking-task t)
+
+  (setq org-return-follows-link t)
 
   (setq org-capture-templates
         (quote (("n" "Notas Rápidas" entry (file "~/Dropbox/registro.org")
-                 "* %T %^G\n\n%?\n\n________________\n"))))
+                 "* %T %? %^G \n________________"))))
 #+end_src
 
 * Latex
@@ -297,5 +359,150 @@ Esto es para evaluar comandos en shell desde un documento org.
                     (font-spec :name "Inconsolata Light" :size 16) nil)
   (set-fontset-font t '(#xe000 . #xffdd)
                     (font-spec :name "RobotoMono Nerd Font" :size 12) nil)
+  ;; Mejorar fuentes en tema leuven
+  (use-package color-theme-modern
+    :commands (Appearance_/load-leuven load-leuven stylize-leuven)
+
+    :init
+    (defun load-leuven ()
+      (interactive)
+      (progn
+        (reset-themes)
+        (load-theme 'leuven t)
+        (stylize-leuven)
+        ));end load-leuven
+
+    :config;Leuven
+
+    (defun stylize-leuven ()
+      (interactive)
+      (progn
+                                          ;tab-bar
+        (set-face-attribute 'tab-bar nil :background "#ffffff" :foreground "#808080" :box '(:line-width 1 :color "#808080" :style pressed-button))
+        (set-face-attribute 'tab-bar-tab-inactive nil :background "#ffffff" :foreground "#808080" :underline nil :box '(:line-width 1 :color "#373b49" :style pressed-button))
+        (set-face-attribute 'tab-bar-tab nil :background "#ffffff" :foreground "#008000" :width 'expanded :box  '(:line-width 1 :color "#008000" :style unpressed-button))
+                                          ;dired
+        (set-face-attribute 'all-the-icons-dired-dir-face nil :background "#ffffff" :foreground "#006DAF")
+        (set-face-attribute 'dired-filetype-execute nil :background "#ffffff" :foreground "#AA0000")
+                                          ;(set-face-attribute 'dired-filetype-xml nil :background "#ffffff" :foreground "#FD8008")
+        (set-face-attribute 'dired-filetype-xml nil :background "#ffffff" :foreground "#dc322f")
+        (set-face-attribute 'dired-filetype-js nil :background "#ffffff" :foreground "#008000" :weight 'normal)
+        (set-face-attribute 'dired-filetype-common nil :background "#ffffff" :foreground "#EA0E0E")
+        (set-face-attribute 'dired-filetype-image nil :background "#ffffff" :foreground "#ff6fff")
+        (set-face-attribute 'dired-filetype-source nil :background "#ffffff" :foreground "#ac4142")
+        (set-face-attribute 'dired-filetype-link nil :background "#ffffff" :foreground "#247284")
+        (set-face-attribute 'dired-filetype-plain nil :background "#ffffff" :foreground "#2EAE2C")
+        (set-face-attribute 'diredp-dir-name nil :background "#ffffff" :foreground "#0b0b0b")
+        (set-face-attribute 'dired-filetype-mytype nil :background "#ffffff" :foreground "#a61fde")
+                                          ;font-lock
+        (set-face-attribute 'font-lock-comment-face nil :background "#ffffff" :foreground "#2EAE2C")
+        (set-face-attribute 'font-lock-builtin-face nil :background "#ffffff" :foreground "#247284")
+        (set-face-attribute 'font-lock-function-name-face nil :background "#ffffff" :foreground "#5f6368")
+        (set-face-attribute 'font-lock-string-face nil :background "#ffffff" :foreground "#8f0075" )
+        (set-face-attribute 'font-lock-keyword-face nil :background "#ffffff" :foreground "#AA0000" )
+                                          ;org-block
+
+        (set-face-attribute 'default nil :background "#ffffff" :foreground "#0b0b0b" :inherit nil)
+
+        (set-face-attribute 'org-document-title nil :background "#ffffff" :foreground "#006DAF")
+        (set-face-attribute 'org-block nil :background "#ffffff" :foreground "#0b0b0b" :extend t)
+        (set-face-attribute 'org-block-end-line nil :background "#ffffff" :foreground "##0b0b0b" )
+        (set-face-attribute 'org-block-begin-line nil :background "#ffffff" :foreground "#0b0b0b")
+        (set-face-attribute 'org-level-1 nil :background "#ffffff" :foreground "#0a0a0a" :box nil)
+        (set-face-attribute 'org-level-2 nil :background "#ffffff" :foreground "#8f0075" :box nil)
+        (set-face-attribute 'org-level-3 nil :background "#ffffff" :foreground "#005522")
+        (set-face-attribute 'org-level-4 nil :background "#ffffff" :foreground "#123555")
+        (set-face-attribute 'org-ellipsis nil :background "#ffffff" )
+        (set-face-attribute 'org-meta-line nil :background "#ffffff" :foreground "#123555")
+                                          ;(set-face-attribute 'org-code nil :background "#e8f1d4" :foreground "#0b0b0b")
+                                          ;(set-face-attribute 'org-code nil )
+                                          ;(set-face-attribute 'org-table nil)
+                                          ;(set-face-attribute 'org-formula nil )
+                                          ;(set-face-attribute 'org-verbatim nil )
+                                          ;(set-face-attribute 'org-special-keyword nil )
+                                          ;(set-face-attribute 'org-meta-line nil :background "#081530" :foreground "#123555" :inherit ;'(font-lock-comment-face fixed-pitch))
+                                          ;(set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch)
+                                          ;line numbers
+                                          ;(set-face-attribute 'line-number nil :inherit 'fixed-pitch)
+                                          ;(set-face-attribute 'line-number-current-line nil )
+
+                                          ;default
+        (set-face-attribute 'region nil :background "#E5F4FB" :foreground "#0b0b0b")
+                                          ;(set-face-attribute 'highlight-parentheses-highlight nil :background "#e8f1d4" :foreground "#061229")
+        (set-face-attribute 'show-paren-match nil :background "#E5F4FB" :foreground "#3c5be9" :inherit nil)
+        (set-face-attribute 'show-paren-match-expression nil :background "#E5F4FB" :foreground "#dc322f" :inherit nil)
+
+                                          ;webmode
+                                          ;(set-face-attribute 'web-mode-html-attr-value-face nil :background "#1b1d1e" :foreground "#99bf52")
+        (set-face-attribute 'web-mode-comment-face nil :background "#ffffff" :foreground "#608fb1")
+                                          ;(set-face-attribute 'web-mode-html-attr-name-face nil :background "#1b1d1e" :foreground "#3c5be9")
+                                          ;(set-face-attribute 'web-mode-style-face nil :background "#1b1d1e" :foreground "#a61fde")
+                                          ;(set-face-attribute 'web-mode-variable-name-face nil :background "#1b1d1e" :foreground  "#3c5be9")
+                                          ;(set-face-attribute 'web-mode-script-face nil :background "#1b1d1e" :foreground "#b77fdb" )
+                                          ;(set-face-attribute 'web-mode-html-tag-face nil :background "#1b1d1e" )
+                                          ;(set-face-attribute 'web-mode-current-element-highlight-face nil :background "#cfe8cf" )
+                                          ;(set-face-attribute 'web-mode-current-column-highlight-face nil :background "#cfe8cf" :foreground "#242924")
+                                          ;(set-face-attribute 'web-mode-html-tag-bracket-face nil :background "#f4fbf4" :foreground "#dc322f")
+
+                                          ;markdown
+        (set-face-attribute 'markdown-html-attr-value-face nil :background "#ffffff" :foreground "#2C942C")
+        (set-face-attribute 'markdown-metadata-value-face nil :background "#ffffff" :foreground "#3c5be9")
+
+                                          ;hydra-posframe
+        (set-face-attribute 'hydra-posframe-border-face nil :background "#ffffff"  :foreground "#ffffff" )
+        (set-face-attribute 'hydra-posframe-face nil :background "#ffffff"  :foreground "#123555" )
+                                          ; hydra faces
+        (set-face-attribute 'pretty-hydra-toggle-off-face nil :background "#ffffff" :foreground "#2C942C")
+        (set-face-attribute 'pretty-hydra-toggle-on-face nil :background "#ffffff" :foreground "#2C942C")
+                                          ;rainbow-delimeters
+        (set-face-attribute 'rainbow-delimiters-unmatched-face nil :background "#ffffff"  :foreground "#d02b61" )
+        (set-face-attribute 'rainbow-delimiters-mismatched-face nil :background "#ffffff"  :foreground "#2C942C")
+                                          ;neo
+                                          ;(set-face-attribute 'neo-file-link-face nil :background "#fdf6e3" :foreground "#8D8D84")
+                                          ;(set-face-attribute 'neo-dir-link-face nil :background "#fdf6e3" :foreground "#0000FF")
+                                          ;(set-face-attribute 'neo-root-dir-face nil :background "#fdf6e3" :foreground "#BA36A5")
+                                          ;(set-face-attribute 'neo-root-dir-face nil :background "#fdf6e3" :foreground "#fff")
+                                          ;company background
+        (set-face-attribute 'company-tooltip nil :background "#E5F4FB"  :foreground "#123555" :inherit nil)
+        (set-face-background 'company-tooltip "#E5F4FB")
+        (set-face-foreground 'company-tooltip "#123555")
+        (setq pbg-swap '(background-color . "#E5F4FB"))
+        (setq pfg-swap '(foreground-color . "#123555"))
+        (and (not (equal pbg-color pbg-swap)) (not (equal pfg-color pfg-swap))
+             (progn
+               (replace-element-in-list pbg-color pbg-swap  company-box-frame-parameters)
+               (replace-element-in-list pfg-color pfg-swap  company-box-frame-parameters)
+               ));end check frame swap loop
+        (setq pbg-color '(background-color . "#E5F4FB"))
+        (setq pfg-color '(foreground-color . "#123555"))
+                                          ;company layovers
+        (set-face-attribute 'company-tooltip-common t :background "#E5F4FB"  :foreground "#123555" :inherit nil )
+        (set-face-attribute 'company-box-candidate t :background "#E5F4FB"  :foreground "#123555" :inherit nil)
+        (set-face-attribute 'company-box-annotation t :background "#E5F4FB"  :foreground "#006DAF" :inherit nil)
+        (set-face-attribute 'company-box-selection t :background "#8ED3FF"  :foreground "#123555" :inherit nil )
+                                          ;(set-face-attribute 'company-box-scrollbar t :background "#263145" :foreground "#d02b61" :inherit nil)
+        (setq zoom-window-mode-line-color "#006DAF")
+                                          ;(set-face-attribute 'cfw:face-title nil :background "#f4fbf4" :foreground "#bbfc20" :height 3 :weight 'bold)
+        (set-face-attribute 'cfw:face-header nil :background "#ffffff" :foreground "#006DAF" )
+        (set-face-attribute 'cfw:face-sunday nil  :background "#ffffff" :foreground "#b5006a" :weight 'bold)
+        (set-face-attribute 'cfw:face-saturday nil :background "#ffffff" :foreground "#b5006a" :weight 'bold)
+        (set-face-attribute 'cfw:face-holiday nil :background "#ffffff" :foreground "#06c6f5" :weight 'bold)
+        (set-face-attribute 'cfw:face-grid nil :foreground "DarkGrey")
+        (set-face-attribute 'cfw:face-default-content nil :foreground "#bfebbf")
+        (set-face-attribute 'cfw:face-periods nil :foreground "cyan")
+        (set-face-attribute 'cfw:face-day-title nil :background "#ffffff" )
+        (set-face-attribute 'cfw:face-default-day nil :weight 'bold :inherit 'cfw:face-day-title)
+        (set-face-attribute 'cfw:face-annotation nil :foreground "RosyBrown" :inherit  'cfw:face-day-title)
+        (set-face-attribute 'cfw:face-disable nil :foreground "DarkGray" :inherit 'cfw:face-day-title)
+        (set-face-attribute 'cfw:face-today-title nil :background "#E5F4FB" :weight 'bold)
+        (set-face-attribute 'cfw:face-today nil :background "#E5F4FB" :weight 'bold)
+        (set-face-attribute 'cfw:face-select nil :background "#bbfc20")
+        (set-face-attribute 'cfw:face-toolbar nil :background "#ffffff" :foreground "Steelblue4" )
+        (set-face-attribute 'cfw:face-toolbar-button-off nil :background "#ffffff" :foreground "#5B6268" :weight 'bold)
+        (set-face-attribute 'cfw:face-toolbar-button-on nil :background "#ffffff" :foreground "#608fb1" :weight 'bold)
+        );end progn
+      );end stylize leuven
+    );end color-theme-modern
+
 #+end_src
 
