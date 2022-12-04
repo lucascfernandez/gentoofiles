@@ -7,8 +7,9 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("bfe046af7359f81d6bd4c47e09ecba8304940107752616124fbf405208b90c8f" default))
+ '(org-gtd-mode t)
  '(package-selected-packages
-   '(org-gtd dired-sidebar org-noter pdf-tools window marginalia org-present visual-fill-column leuven-theme org-roam-ui olivetti toc-org consult orderless vertico use-package)))
+   '(corfu org-gtd dired-sidebar org-noter pdf-tools window marginalia org-present visual-fill-column leuven-theme org-roam-ui olivetti toc-org consult orderless vertico use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
