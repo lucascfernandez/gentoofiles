@@ -23,8 +23,8 @@ gitscript.sh
 #+end_src
 
 #+RESULTS:
-| [main 4dfc25d] commit de actualización por defecto para pequeñas modificaciones |                  |                |
-| 1 file changed                                                                  | 10 insertions(+) | 4 deletions(-) |
+| [main 8b8905d] commit de actualización por defecto para pequeñas modificaciones |                 |                |
+| 1 file changed                                                                  | 2 insertions(+) | 7 deletions(-) |
 
 *  Comportamiento General
 #+begin_src emacs-lisp
@@ -152,7 +152,7 @@ gitscript.sh
     :after org
     :demand t
     :custom
-    (org-gtd-directory "~/org-gtd")
+    (org-gtd-directory "~/Dropbox/org-gtd")
     (org-edna-use-inheritance t)
     :config
     (org-edna-mode)
@@ -164,8 +164,6 @@ gitscript.sh
      ("C-c d s" . org-gtd-show-stuck-projects)
      :map org-gtd-process-map
      ("C-c c" . org-gtd-choose)))
-
-  (setq org-gtd-directory "~/Dropbox/org-gtd")
 
   (use-package corfu
     ;; Optional customizations
