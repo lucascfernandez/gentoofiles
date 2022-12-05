@@ -23,8 +23,8 @@ gitscript.sh
 #+end_src
 
 #+RESULTS:
-| [main 4ae6373] commit de actualización por defecto para pequeñas modificaciones |                 |                |
-| 1 file changed                                                                  | 4 insertions(+) | 3 deletions(-) |
+| [main 06a65be] commit de actualización por defecto para pequeñas modificaciones |                 |                |
+| 1 file changed                                                                  | 3 insertions(+) | 3 deletions(-) |
 
 *  Comportamiento General
 #+begin_src emacs-lisp
@@ -33,7 +33,7 @@ gitscript.sh
   (setq inhibit-splash-screen t)
   (scroll-bar-mode -1) 
   (blink-cursor-mode -1)
-  (load-theme 'tsdh-light t)
+  (load-theme 'modus-operandi t)
   (global-set-key [(control x) (k)] 'kill-this-buffer)
   (setq search-whitespace-regexp ".*")
   (setq isearch-lax-whitespace t)
@@ -213,6 +213,11 @@ gitscript.sh
            ("M-r" . consult-history))
     :custom
     (completion-in-region-function #'consult-completion-in-region))
+
+  (use-package dired-sidebar
+    :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
+    :ensure nil
+    :commands (dired-sidebar-toggle-sidebar))
 #+end_src
 
 * Dired
@@ -236,25 +241,25 @@ gitscript.sh
 * Org-Roam
 #+begin_src emacs-lisp
   (use-package org-roam
-               :after org
-               :init (setq org-roam-v2-ack t) ;; Acknowledge V2 upgrade
-               :custom
-               (org-roam-directory (file-truename "~/Dropbox/roam/"))
-               :config
-               (org-roam-setup)
-               :bind (("C-c n f" . org-roam-node-find)
-                      ("C-c n r" . org-roam-node-random)
-                      ("C-c n d" . org-roam-dailies-capture-today)
-                      ("C-c n D" . org-roam-dailies-goto-today)
-                      ("C-c n v" . org-roam-dailies-capture-date)
-                      ("C-c n V" . org-roam-dailies-goto-date)
-                      (:map org-mode-map
-                            (("C-c n i" . org-roam-node-insert)
-                             ("C-c n o" . org-id-get-create)
-                             ("C-c n t" . org-roam-tag-add)
-                             ("C-c n a" . org-roam-alias-add)
-                             ("C-M-i" . completion-at-point)
-                             ("C-c n l" . org-roam-buffer-toggle)))))
+    :after org
+    :init (setq org-roam-v2-ack t) ;; Acknowledge V2 upgrade
+    :custom
+    (org-roam-directory (file-truename "~/Dropbox/roam/"))
+    :config
+    (org-roam-setup)
+    :bind (("C-c n f" . org-roam-node-find)
+           ("C-c n r" . org-roam-node-random)
+           ("C-c n d" . org-roam-dailies-capture-today)
+           ("C-c n D" . org-roam-dailies-goto-today)
+           ("C-c n v" . org-roam-dailies-capture-date)
+           ("C-c n V" . org-roam-dailies-goto-date)
+           (:map org-mode-map
+                 (("C-c n i" . org-roam-node-insert)
+                  ("C-c n o" . org-id-get-create)
+                  ("C-c n t" . org-roam-tag-add)
+                  ("C-c n a" . org-roam-alias-add)
+                  ("C-M-i" . completion-at-point)
+                  ("C-c n l" . org-roam-buffer-toggle)))))
 
   (setq org-roam-capture-templates
         '(("d" "nota por defecto" plain "%?" :target
@@ -366,6 +371,8 @@ las funciones más utilizadas estén "más a la mano" a la hora de trabajar.
   (global-set-key (kbd "C-x c") 'calendar)
   ;; Comportamiento
   (global-set-key (kbd "M-i") 'imenu)
+  ;; Gnus
+  (global-set-key (kbd "C-x g") 'gnus)
   #+end_src
 
 * Babel
