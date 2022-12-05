@@ -23,8 +23,8 @@ gitscript.sh
 #+end_src
 
 #+RESULTS:
-| [main c3f1554] commit de actualización por defecto para pequeñas modificaciones |                  |                  |
-| 2 files changed                                                                 | 74 insertions(+) | 183 deletions(-) |
+| [main 7096229] commit de actualización por defecto para pequeñas modificaciones |                  |                 |
+| 2 files changed                                                                 | 53 insertions(+) | 15 deletions(-) |
 
 *  Comportamiento General
 #+begin_src emacs-lisp
@@ -390,7 +390,7 @@ Esto es para evaluar comandos en shell desde un documento org.
                     (font-spec :name "RobotoMono Nerd Font" :size 12) nil)
   ;;Customizations
   (let* ((variable-tuple
-          (cond ((x-list-fonts "ETBembo")         '(:font "ETBembo"))
+          (cond ((x-list-fonts "SF Pro Display")         '(:font "SF Pro Display"))
                 ((x-list-fonts "SFMono") '(:font "Source Sans Pro"))
                 ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
                 ((x-list-fonts "Verdana")         '(:font "Verdana"))
@@ -413,7 +413,7 @@ Esto es para evaluar comandos en shell desde un documento org.
 
   (custom-theme-set-faces
    'user
-   '(variable-pitch ((t (:family "ETBembo" :height 180 :weight thin))))
+   '(variable-pitch ((t (:family "SF Pro Display" :height 180 :weight light))))
    '(fixed-pitch ((t ( :family "SFMono" :height 160)))))
 
   (custom-theme-set-faces
