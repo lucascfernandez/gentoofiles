@@ -23,8 +23,8 @@ gitscript.sh
 #+end_src
 
 #+RESULTS:
-| [main 97c6b4e] commit de actualización por defecto para pequeñas modificaciones |                 |                |
-| 1 file changed                                                                  | 4 insertions(+) | 4 deletions(-) |
+| [main 4ae6373] commit de actualización por defecto para pequeñas modificaciones |                 |                |
+| 1 file changed                                                                  | 4 insertions(+) | 3 deletions(-) |
 
 *  Comportamiento General
 #+begin_src emacs-lisp
@@ -365,7 +365,7 @@ las funciones más utilizadas estén "más a la mano" a la hora de trabajar.
   ;; Utilities
   (global-set-key (kbd "C-x c") 'calendar)
   ;; Comportamiento
-  (global-set-key (kbd "M-i") 'consult-outline)
+  (global-set-key (kbd "M-i") 'imenu)
   #+end_src
 
 * Babel
