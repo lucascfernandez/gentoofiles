@@ -23,8 +23,8 @@ gitscript.sh
 #+end_src
 
 #+RESULTS:
-| [main 7096229] commit de actualización por defecto para pequeñas modificaciones |                  |                 |
-| 2 files changed                                                                 | 53 insertions(+) | 15 deletions(-) |
+| [main 97c6b4e] commit de actualización por defecto para pequeñas modificaciones |                 |                |
+| 1 file changed                                                                  | 4 insertions(+) | 4 deletions(-) |
 
 *  Comportamiento General
 #+begin_src emacs-lisp
@@ -221,6 +221,7 @@ gitscript.sh
   (add-hook 'dired-mode-hook 'dired-hide-details-mode)
 #+end_src
 * Org
+
 #+begin_src emacs-lisp
   (add-hook 'org-mode-hook 'turn-on-flyspell)
   (add-hook 'org-mode-hook 'variable-pitch-mode)
@@ -383,7 +384,7 @@ Esto es para evaluar comandos en shell desde un documento org.
   (set-face-attribute 'bold nil
                       :family "SFMono" :weight 'regular)
   (set-face-attribute 'italic nil
-                      :family "Victor Mono" :weight 'light :slant 'italic)
+                      :family "Victor Mono" :weight 'light :height 155 :slant 'italic)
   (set-fontset-font t 'unicode
                     (font-spec :name "Iosevka Mono" :size 16) nil)
   (set-fontset-font t '(#xe000 . #xffdd)
