@@ -23,8 +23,8 @@ gitscript.sh
 #+end_src
 
 #+RESULTS:
-| [main 06a65be] commit de actualización por defecto para pequeñas modificaciones |                 |                |
-| 1 file changed                                                                  | 3 insertions(+) | 3 deletions(-) |
+| [main e8ceb43] commit de actualización por defecto para pequeñas modificaciones |                  |                 |
+| 2 files changed                                                                 | 53 insertions(+) | 24 deletions(-) |
 
 *  Comportamiento General
 #+begin_src emacs-lisp
@@ -40,9 +40,11 @@ gitscript.sh
   (setq isearch-regexp-lax-whitespace nil)
   (setq initial-scratch-message "\n;; ようこそルーカス、長生きする自由な知識とパリアの人々!\n\n\n")
   (setq user-full-name "Lucas Fernandez Cofré")
+
   ;; Muy útil para mejorar el scroll desde teclado
   (global-set-key (kbd "C-v") 'View-scroll-half-page-forward)
   (global-set-key (kbd "M-v") 'View-scroll-half-page-backward)
+
   ;; === Smooth scroll ==
   (setq redisplay-dont-pause t
         scroll-margin 1
@@ -50,7 +52,11 @@ gitscript.sh
         scroll-conservatively 10000
         scroll-preserve-screen-position 1)
   (setq initial-buffer-choice (lambda () (org-roam-dailies-goto-today "d") (current-buffer)))
-  #+end_src
+
+  ;; Slip by side windows
+  (setq split-height-threshold nil)
+  (setq split-width-threshold 0)
+#+end_src
 
 * Repositorios
 #+begin_src emacs-lisp
@@ -63,7 +69,7 @@ gitscript.sh
     (package-install 'use-package))
   (eval-and-compile
     (setq use-package-always-ensure t
-	  use-package-expand-minimally t))
+          use-package-expand-minimally t))
 #+end_src
 
 * Packages
