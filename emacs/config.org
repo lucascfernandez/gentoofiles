@@ -23,8 +23,8 @@ gitscript.sh
 #+end_src
 
 #+RESULTS:
-| [main e8ceb43] commit de actualización por defecto para pequeñas modificaciones |                  |                 |
-| 2 files changed                                                                 | 53 insertions(+) | 24 deletions(-) |
+| [main 4dfc25d] commit de actualización por defecto para pequeñas modificaciones |                  |                |
+| 1 file changed                                                                  | 10 insertions(+) | 4 deletions(-) |
 
 *  Comportamiento General
 #+begin_src emacs-lisp
@@ -203,14 +203,9 @@ gitscript.sh
 
   (use-package consult
     :bind (("C-x b"       . consult-buffer)
-           ("C-x C-k C-k" . consult-kmacro)
            ("M-y"         . consult-yank-pop)
-           ("M-g g"       . consult-goto-line)
-           ("M-g M-g"     . consult-goto-line)
-           ("M-g i"       . consult-imenu)
            ("C-x C-SPC"   . consult-global-mark)
            ("C-x M-:"     . consult-complex-command)
-           ("C-c C-a"       . consult-org-agenda)
            :map dired-mode-map
            ("O" . consult-file-externally)
            :map help-map
