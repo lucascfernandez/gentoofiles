@@ -14,6 +14,7 @@
 - [[#latex][Latex]]
 - [[#key-maps][Key Maps]]
 - [[#babel][Babel]]
+- [[#theme][Theme]]
 - [[#fonts][Fonts]]
 
 * Actualizar Repositorio Git
@@ -23,8 +24,8 @@ gitscript.sh
 #+end_src
 
 #+RESULTS:
-| [main 8b8905d] commit de actualización por defecto para pequeñas modificaciones |                 |                |
-| 1 file changed                                                                  | 2 insertions(+) | 7 deletions(-) |
+| [main 18cd909] commit de actualización por defecto para pequeñas modificaciones |                 |                |
+| 1 file changed                                                                  | 3 insertions(+) | 5 deletions(-) |
 
 *  Comportamiento General
 #+begin_src emacs-lisp
@@ -33,7 +34,6 @@ gitscript.sh
   (setq inhibit-splash-screen t)
   (scroll-bar-mode -1) 
   (blink-cursor-mode -1)
-  (load-theme 'modus-operandi t)
   (global-set-key [(control x) (k)] 'kill-this-buffer)
   (setq search-whitespace-regexp ".*")
   (setq isearch-lax-whitespace t)
@@ -165,40 +165,6 @@ gitscript.sh
      :map org-gtd-process-map
      ("C-c c" . org-gtd-choose)))
 
-  (use-package corfu
-    ;; Optional customizations
-    :custom
-    (corfu-cycle t)                 ; Allows cycling through candidates
-    (corfu-auto t)                  ; Enable auto completion
-    (corfu-auto-prefix 2)
-    (corfu-auto-delay 0.0)
-    (corfu-echo-documentation 0.25) ; Enable documentation for completions
-    (corfu-preview-current 'insert) ; Do not preview current candidate
-    (corfu-preselect-first nil)
-    (corfu-on-exact-match nil)      ; Don't auto expand tempel snippets
-
-    ;; Optionally use TAB for cycling, default is `corfu-complete'.
-    :bind (:map corfu-map
-                ("M-SPC" . corfu-insert-separator)
-                ("TAB"     . corfu-next)
-                ([tab]     . corfu-next)
-                ("S-TAB"   . corfu-previous)
-                ([backtab] . corfu-previous)
-                ("S-<return>" . corfu-insert)
-                ("RET"     . nil) ;; leave my enter alone!
-                )
-
-    :init
-    (global-corfu-mode)
-    (corfu-history-mode)
-    :config 
-    (setq tab-always-indent 'complete)
-    (add-hook 'eshell-mode-hook
-              (lambda () (setq-local corfu-quit-at-boundary t
-                                     corfu-quit-no-match t
-                                     corfu-auto nil)
-                (corfu-mode))))
-
   (use-package consult
     :bind (("C-x b"       . consult-buffer)
            ("M-y"         . consult-yank-pop)
@@ -228,7 +194,6 @@ gitscript.sh
 
 #+begin_src emacs-lisp
   (add-hook 'org-mode-hook 'turn-on-flyspell)
-  (add-hook 'org-mode-hook 'variable-pitch-mode)
   (setq org-startup-indented t
         org-pretty-entities t
         org-hide-leading-stars t
@@ -372,6 +337,8 @@ las funciones más utilizadas estén "más a la mano" a la hora de trabajar.
   (global-set-key (kbd "M-i") 'imenu)
   ;; Gnus
   (global-set-key (kbd "C-x g") 'gnus)
+  ;; toggle theme
+  (define-key global-map (kbd "<f5>") #'modus-themes-toggle)
   #+end_src
 
 * Babel
@@ -382,9 +349,100 @@ Esto es para evaluar comandos en shell desde un documento org.
 (org-babel-do-load-languages
  'org-babel-load-languages '((shell . t)))
 #+end_src
+* Theme
+
+#+begin_src emacs-lisp
+  (load-theme 'modus-operandi)            ; Light theme
+
+  ;; Customization
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs t
+        modus-themes-no-mixed-fonts nil
+        modus-themes-subtle-line-numbers nil
+        modus-themes-success-deuteranopia t
+        modus-themes-tabs-accented t
+        modus-themes-inhibit-reload t ; only applies to `customize-set-variable' and related
+
+        modus-themes-fringes 'nil ; {nil,'subtle,'intense}
+
+        ;; Options for `modus-themes-lang-checkers' are either nil (the
+        ;; default), or a list of properties that may include any of those
+        ;; symbols: `straight-underline', `text-also', `background',
+        ;; `intense'
+        modus-themes-lang-checkers `(straight-underline text-also background intense)
+
+        ;; Options for `modus-themes-mode-line' are either nil, or a list
+        ;; that can combine any of `3d' OR `moody', `borderless',
+        ;; `accented', `padded'.
+        modus-themes-mode-line '(accented borderless)
+
+        ;; Options for `modus-themes-syntax' are either nil (the default),
+        ;; or a list of properties that may include any of those symbols:
+        ;; `faint', `yellow-comments', `green-strings', `alt-syntax'
+        modus-themes-syntax `(alt-syntax yellow-comments)
+
+        ;; Options for `modus-themes-hl-line' are either nil (the default),
+        ;; or a list of properties that may include any of those symbols:
+        ;; `accented', `underline', `intense'
+        modus-themes-hl-line '(underline accented)
+
+        ;; Options for `modus-themes-paren-match' are either nil (the
+        ;; default), or a list of properties that may include any of those
+        ;; symbols: `bold', `intense', `underline'
+        modus-themes-paren-match '(intense)
+
+        ;; Options for `modus-themes-links' are either nil (the default),
+        ;; or a list of properties that may include any of those symbols:
+        ;; `neutral-underline' OR `no-underline', `faint' OR `no-color',
+        ;; `bold', `italic', `background'
+        modus-themes-links '(background faint)
+
+        ;; Options for `modus-themes-prompts' are either nil (the
+        ;; default), or a list of properties that may include any of those
+        ;; symbols: `background', `bold', `gray', `intense', `italic'
+        modus-themes-prompts '(intense bold)
+
+        modus-themes-completions 'moderate ; {nil,'moderate,'opinionated}
+
+        modus-themes-mail-citations nil ; {nil,'faint,'monochrome}
+
+        ;; Options for `modus-themes-region' are either nil (the default),
+        ;; or a list of properties that may include any of those symbols:
+        ;; `no-extend', `bg-only', `accented'
+        modus-themes-region '(bg-only no-extend)
+
+        ;; Options for `modus-themes-diffs': nil, 'desaturated,
+        ;; 'bg-only, 'deuteranopia, 'fg-only-deuteranopia
+        modus-themes-diffs 'fg-only-deuteranopia
+
+        modus-themes-org-blocks 'gray-background ; {nil,'gray-background,'tinted-background}
+
+        modus-themes-org-agenda ; this is an alist: read the manual or its doc string
+        '((header-block . (variable-pitch scale-title))
+          (header-date . (grayscale workaholic bold-today))
+          (event . (accented scale-small))
+          (scheduled . uniform)
+          (habit . traffic-light-deuteranopia))
+
+        modus-themes-headings ; this is an alist: read the manual or its doc string
+        '((1 . (overline background))
+          (2 . (rainbow overline))
+          (t . (no-bold)))
+
+        modus-themes-variable-pitch-ui nil
+        modus-themes-variable-pitch-headings t
+        modus-themes-scale-headings t
+        modus-themes-scale-1 1.1
+        modus-themes-scale-2 1.15
+        modus-themes-scale-3 1.21
+        modus-themes-scale-4 1.72
+        modus-themes-scale-title 1.33)
+#+end_src
+
 * Fonts
 
 #+begin_src emacs-lisp
+  ;; Set fonts
   (set-face-attribute 'default nil
                       :family "SFMono" :weight 'regular :height 140)
   (set-face-attribute 'bold nil
@@ -395,47 +453,4 @@ Esto es para evaluar comandos en shell desde un documento org.
                     (font-spec :name "Iosevka Mono" :size 16) nil)
   (set-fontset-font t '(#xe000 . #xffdd)
                     (font-spec :name "RobotoMono Nerd Font" :size 12) nil)
-  ;;Customizations
-  (let* ((variable-tuple
-          (cond ((x-list-fonts "SF Pro Display")         '(:font "SF Pro Display"))
-                ((x-list-fonts "SFMono") '(:font "Source Sans Pro"))
-                ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
-                ((x-list-fonts "Verdana")         '(:font "Verdana"))
-                ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
-                (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
-         (base-font-color     (face-foreground 'default nil 'default))
-         (headline           `(:inherit default :weight bold :foreground ,base-font-color)))
-
-    (custom-theme-set-faces
-     'user
-     `(org-level-8 ((t (,@headline ,@variable-tuple))))
-     `(org-level-7 ((t (,@headline ,@variable-tuple))))
-     `(org-level-6 ((t (,@headline ,@variable-tuple))))
-     `(org-level-5 ((t (,@headline ,@variable-tuple))))
-     `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
-     `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
-     `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
-     `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
-     `(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil))))))
-
-  (custom-theme-set-faces
-   'user
-   '(variable-pitch ((t (:family "SF Pro Display" :height 180 :weight light))))
-   '(fixed-pitch ((t ( :family "SFMono" :height 160)))))
-
-  (custom-theme-set-faces
-   'user
-   '(org-block ((t (:inherit fixed-pitch))))
-   '(org-code ((t (:inherit (shadow fixed-pitch)))))
-   '(org-document-info ((t (:foreground "dark orange"))))
-   '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
-   '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
-   '(org-link ((t (:foreground "royal blue" :underline t))))
-   '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-   '(org-property-value ((t (:inherit fixed-pitch))) t)
-   '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-   '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
-   '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
-   '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
-#+end_src
-
+  #+end_src
