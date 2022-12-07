@@ -24,10 +24,13 @@ gitscript.sh
 #+end_src
 
 #+RESULTS:
-| [main 18cd909] commit de actualización por defecto para pequeñas modificaciones |                 |                |
-| 1 file changed                                                                  | 3 insertions(+) | 5 deletions(-) |
+| [main   | 378a5d5]      | commit   |  de | actualización  | por | defecto      | para | pequeñas | modificaciones |
+| 2       | files         | changed, | 112 | insertions(+), | 124 | deletions(-) |      |          |                |
+| rewrite | emacs/init.el | (78%)    |     |                |     |              |      |          |                |
 
 *  Comportamiento General
+
+
 #+begin_src emacs-lisp
   (menu-bar-mode -1)
   (tool-bar-mode -1)
@@ -52,10 +55,6 @@ gitscript.sh
         scroll-conservatively 10000
         scroll-preserve-screen-position 1)
   (setq initial-buffer-choice (lambda () (org-roam-dailies-goto-today "d") (current-buffer)))
-
-  ;; Slip by side windows
-  (setq split-height-threshold nil)
-  (setq split-width-threshold 0)
 #+end_src
 
 * Repositorios
@@ -215,6 +214,8 @@ gitscript.sh
            ("C-c n r" . org-roam-node-random)
            ("C-c n d" . org-roam-dailies-capture-today)
            ("C-c n D" . org-roam-dailies-goto-today)
+           ("C-c n ]" . org-roam-dailies-goto-tomorrow)
+           ("C-c n [" . org-roam-dailies-goto-yesterday)
            ("C-c n v" . org-roam-dailies-capture-date)
            ("C-c n V" . org-roam-dailies-goto-date)
            (:map org-mode-map
@@ -322,8 +323,7 @@ dejaré por algun lado [[https://jakebox.github.io/youtube/org_latex_video.html]
 
 * Key Maps
 
-Por último, estableceremos los atajos de teclado para que alguna de
-las funciones más utilizadas estén "más a la mano" a la hora de trabajar.
+Por último, estableceremos los atajos de teclado para que alguna de las funciones más utilizadas estén "más a la mano" a la hora de trabajar.
 
 #+begin_src emacs-lisp
   ;; Org
@@ -352,8 +352,6 @@ Esto es para evaluar comandos en shell desde un documento org.
 * Theme
 
 #+begin_src emacs-lisp
-  (load-theme 'modus-operandi)            ; Light theme
-
   ;; Customization
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs t
@@ -437,6 +435,8 @@ Esto es para evaluar comandos en shell desde un documento org.
         modus-themes-scale-3 1.21
         modus-themes-scale-4 1.72
         modus-themes-scale-title 1.33)
+
+  (load-theme 'modus-operandi)            ; Light theme
 #+end_src
 
 * Fonts
@@ -446,9 +446,9 @@ Esto es para evaluar comandos en shell desde un documento org.
   (set-face-attribute 'default nil
                       :family "SFMono" :weight 'regular :height 140)
   (set-face-attribute 'bold nil
-                      :family "SFMono" :weight 'regular)
+                      :family "SFMono" :weight 'bold)
   (set-face-attribute 'italic nil
-                      :family "Victor Mono" :weight 'light :height 155 :slant 'italic)
+                      :family "Victor Mono" :weight 'light :height 150 :slant 'italic)
   (set-fontset-font t 'unicode
                     (font-spec :name "Iosevka Mono" :size 16) nil)
   (set-fontset-font t '(#xe000 . #xffdd)
