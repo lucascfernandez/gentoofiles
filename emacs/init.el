@@ -11,7 +11,7 @@
  '(olivetti-body-width 62)
  '(org-gtd-mode t)
  '(package-selected-packages
-   '(org-gtd dired-sidebar org-noter pdf-tools window org-present visual-fill-column org-roam-ui olivetti toc-org consult orderless vertico use-package))
+   '(org-preview-html elfeed org-gtd dired-sidebar org-noter pdf-tools window org-present visual-fill-column org-roam-ui olivetti toc-org consult orderless vertico use-package))
  '(smtpmail-smtp-server "smtp.google.com" t)
  '(smtpmail-smtp-service 25 t))
 (custom-set-faces
